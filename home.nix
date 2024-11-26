@@ -16,6 +16,18 @@
   home.stateVersion = "24.11";
 
   home.packages = with pkgs; [
+    neovim
+    git
+    wget
+    nerdfonts
+    gnumake
+    gcc
+    unzip
+    ripgrep
+    nushell
+    starship
+    zellij
+    rustup
   ];
 
   programs.nushell.enable = true;
