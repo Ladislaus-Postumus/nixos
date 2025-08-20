@@ -3,21 +3,19 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nvf.url = "github:notashelf/nvf";
+
+    #nixvim = {
+    #  url = "github:nix-community/nixvim";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
   };
 
   outputs = {
     self,
     nixpkgs,
-    home-manager,
-    nixvim,
+    #nixvim,
+    nvf,
   }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {inherit system;};
@@ -26,6 +24,7 @@
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       inherit system;
       modules = [
+        nvf.nixosModules.default
         ./hardware-configuration.nix # reference to the generated hardware config
         ({
           config,
@@ -33,14 +32,12 @@
           lib,
           ...
         }: {
-          imports = [home-manager.nixosModules.home-manager];
+          system.stateVersion = "24.11"; # Did you read the comment?
+          nix.settings.experimental-features = ["nix-command" "flakes"];
 
           # Bootloader.
           boot.loader.systemd-boot.enable = true;
           boot.loader.efi.canTouchEfiVariables = true;
-
-          # Enable networking
-          networking.networkmanager.enable = true;
 
           # Set your time zone.
           time.timeZone = "Europe/Berlin";
@@ -60,6 +57,9 @@
             LC_TIME = "de_DE.UTF-8";
           };
 
+          # Enable networking
+          networking.networkmanager.enable = true;
+
           # 1. Hostname and user setup
           networking.hostName = "nixos";
           users.users.pme = {
@@ -67,7 +67,14 @@
             home = "/home/pme";
             description = "pme";
             extraGroups = ["wheel" "networkmanager"];
-            #shell        = pkgs.zsh;
+            shell = pkgs.zsh;
+          };
+          users.users.greeter = {
+            isSystemUser = true;
+            description = "greetd user";
+            createHome = false;
+            extraGroups = [ "video" "input" "render" ];
+            shell = "/usr/sbin/nologin";
           };
 
           # 2. System packages (systemwide)
@@ -78,6 +85,7 @@
             git # version control
             neovim # editor
             zsh # shell
+            zsh-powerlevel10k
             hyprland # Wayland compositor
             nh # NixOS helper (rebuild with diffs):contentReference[oaicite:0]{index=0}
             nix-output-monitor
@@ -85,6 +93,11 @@
             alejandra # Nix code formatter (for nixvim)
             nixd # Nix language server (LSP)
             statix # Nix linter (optional)
+            cage
+            greetd
+            regreet
+            keepassxc
+            wofi
           ];
 
           # 3. Default applications (set via environment variables)
@@ -95,86 +108,54 @@
             SHELL = "zsh";
           };
 
-          # 4. Services
-          #    Enable greetd as a login manager (for Wayland/graphical login)
-          services.greetd.enable = true;
-          services.greetd.settings = {
-            default_session.command = "${pkgs.hyprland}/bin/hyprland";
-            default_session.user = "pme";
-          };
-          # Hyprland has no dedicated NixOS module, but we install it and run via greetd.
-
-          # 5. Enable Home Manager for user-specific config
-          home-manager.useUserPackages = true;
-          home-manager.useGlobalPkgs = false;
-          home-manager.users.pme = {
-            home.stateVersion = "24.11";
-            imports = [
-              nixvim.homeManagerModules.nixvim
-            ];
-
-            # Git user config (per-user)
-            programs.git.enable = true;
-            programs.git.userName = "Your Name";
-            programs.git.userEmail = "you@example.com";
-
-            # Zsh, Oh My Zsh and Powerlevel10k theme (per-user)
-            programs.zsh.enable = true;
-            programs.zsh.oh-my-zsh.enable = true;
-            programs.zsh.oh-my-zsh.theme = "powerlevel10k/powerlevel10k";
-            # programs.zsh.defaultShell   = true;
-
-            # Kitty terminal (per-user)
-            programs.kitty.enable = true;
-
-            # NixVim configuration (per-user)
-            programs.nixvim = {
-              enable = true;
-              colorscheme = "desert";
-              opts = {
-                number = true;
-              };
-
-              plugins = {
-                nix.enable = true;
-                lsp.enable = true;
-                conform-nvim = {
-                  enable = true;
-                  settings = {
-                    formatters_by_ft = {
-                      nix = ["alejandra"];
-                    };
-                    format_on_save =
-                      # Lua
-                      ''
-                        function(bufnr)
-                          local slow_format_filetypes = slow_format_filetypes or {}
-
-                          if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-                            return
-                          end
-
-                          if slow_format_filetypes[vim.bo[bufnr].filetype] then
-                            return
-                          end
-
-                          local function on_format(err)
-                            if err and err:match("timeout$") then
-                              slow_format_filetypes[vim.bo[bufnr].filetype] = true
-                            end
-                          end
-
-                          return { timeout_ms = 200, lsp_fallback = true }, on_format
-                         end
-                      '';
-                    formatters = {
-                      alejandra.command = lib.getExe pkgs.alejandra;
-                    };
-                  };
-                };
+          programs.regreet.enable = true;
+          services.greetd = {
+            enable = true;
+            settings = {
+              terminal = { vt = 1; };
+              default_session = {
+                command = "${pkgs.cage}/bin/cage -s -- ${pkgs.regreet}/bin/regreet";
+                user = "greeter";
               };
             };
           };
+
+          programs.uwsm.enable = true;
+          programs.hyprland = {
+            enable = true;
+            withUWSM = true;
+            xwayland.enable = true;
+          };
+          services.desktopManager.plasma6.enable = true;
+
+          # Git user config (per-user)
+          programs.git = {
+            enable = true;
+            # config = [
+            #   {
+            #     user.name = "Philipp Melzer";
+            #     user.email = "philipp.melzer2014@gmail.com";
+            #   }
+            # ];
+          };
+
+          # Zsh, Oh My Zsh and Powerlevel10k theme (per-user)
+          programs.zsh.enable = true;
+          programs.zsh.oh-my-zsh.enable = true;
+          #programs.zsh.oh-my-zsh.theme = pkgs.powerlevel10k;
+
+          programs.nvf = {
+            enable = true;
+            settings = {
+              vim.lsp = {
+                enable = true;
+              };
+              vim.languages = {
+                nix.enable = true;
+              };
+            };
+          };
+
         })
       ];
     };
