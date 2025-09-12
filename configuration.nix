@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 {
@@ -9,16 +5,34 @@
   ### System Packages ##########
   ##############################
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     neovim
     wget
     git
     firefox
     kitty
-    discord
     keepassxc
+    nh
+    wl-clipboard
+
+    gnome-boxes
+    virt-manager
+    virt-viewer
+    virtualbox
+
+    exiftool
+    zip
+    unzip
+    discord
+    syncthing
+
+    heroic
+    prismlauncher
+
+    mpv
+    feh
+    gimp3
+    siril
   ];
 
   programs.steam = {
@@ -47,14 +61,19 @@
   ### Users ####################
   ##############################
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.pme = {
     isNormalUser = true;
     description = "Philipp Melzer";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "libvirt" "kvm" "vboxusers" ];
     packages = with pkgs; [
       #omnissa-horizon-client
     ];
+  };
+
+
+  environment.variables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
   };
 
   ##############################
@@ -62,23 +81,26 @@
   ##############################
 
   # Enable the GNOME Desktop Environment.
-  # services.xserver.enable = true;
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
    services.displayManager.gdm.enable = true;
    services.desktopManager.gnome.enable = true;
 
-  # services.gnome = {
-  #   core-apps.enable = false;
-  #   games.enable = false;
-  # };
-  # environment.gnome.excludePackages = with pkgs; [ gnome-tour gnome-user-docs ];
+  services.gnome = {
+    core-apps.enable = false;
+    games.enable = false;
+  };
+  environment.gnome.excludePackages = with pkgs; [ gnome-tour gnome-user-docs ];
 
   ##############################
   ### Anderer Bums #############
   ##############################
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  virtualisation.libvirtd = {
+    enable = true;
+  };
+  virtualisation.virtualbox.host.enable = true;
+    services.udev.packages = [ pkgs.virtualbox ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -175,4 +197,7 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  boot.kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" ];
+  programs.corectrl.enable = true;
 }
