@@ -19,11 +19,12 @@
     system = "x86_64-linux";
     pkgs = import nixpkgs {inherit system;};
   in {
-    # Define the NixOS system configuration
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       inherit system;
+      specialArgs = { inherit nixvirt system; };
       modules = [
         nvf.nixosModules.default
+        nixvirt.nixosModules.default
         ./hardware-configuration.nix
         ./configuration.nix
         ./nvim.nix

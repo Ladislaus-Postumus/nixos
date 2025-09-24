@@ -31,8 +31,10 @@
       };
 
       theme = {
+        enable = true;
         name = "everforest";
-        style = "dark";
+        style = "medium";
+        transparent = true;
       };
 
       lsp = {

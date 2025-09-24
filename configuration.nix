@@ -1,5 +1,4 @@
-{ config, pkgs, ... }:
-
+{ config, pkgs, nixvirt, ... }:
 {
   ##############################
   ### System Packages ##########
@@ -15,10 +14,9 @@
     nh
     wl-clipboard
 
-    gnome-boxes
     virt-manager
     virt-viewer
-    virtualbox
+    swtpm
 
     exiftool
     zip
@@ -64,7 +62,7 @@
   users.users.pme = {
     isNormalUser = true;
     description = "Philipp Melzer";
-    extraGroups = [ "networkmanager" "wheel" "video" "libvirt" "kvm" "vboxusers" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "libvirt" "kvm" "vboxusers" "libvirtd" ];
     packages = with pkgs; [
       #omnissa-horizon-client
     ];
@@ -95,12 +93,6 @@
   ##############################
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  virtualisation.libvirtd = {
-    enable = true;
-  };
-  virtualisation.virtualbox.host.enable = true;
-    services.udev.packages = [ pkgs.virtualbox ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
