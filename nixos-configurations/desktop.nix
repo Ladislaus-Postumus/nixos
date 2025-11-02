@@ -1,4 +1,4 @@
-{ config, pkgs, nixvirt, ... }:
+{ pkgs, ... }:
 {
   ##############################
   ### System Packages ##########
@@ -153,16 +153,13 @@
   # services.xserver.libinput.enable = true;
 
 
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [ ./desktop-hardware.nix ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "desktop";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
