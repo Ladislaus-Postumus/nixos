@@ -13,6 +13,7 @@
     keepassxc
     nh
     wl-clipboard
+    keymapp
 
     virt-manager
     virt-viewer
@@ -30,6 +31,7 @@
     mpv
     feh
     gimp3
+
     siril
   ];
 
@@ -55,6 +57,10 @@
     ];
   };
 
+  services.udev.extraRules = ''
+    SUBSYSTEM=="hidraw", ATTRS{idVendor}=="3297", ATTRS{idProduct}=="1977", MODE="0660", GROUP="plugdev"
+  '';
+
   ##############################
   ### Users ####################
   ##############################
@@ -62,7 +68,7 @@
   users.users.pme = {
     isNormalUser = true;
     description = "Philipp Melzer";
-    extraGroups = [ "networkmanager" "wheel" "video" "libvirt" "kvm" "vboxusers" "libvirtd" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "libvirt" "kvm" "vboxusers" "libvirtd" "plugdev" ];
     packages = with pkgs; [
       #omnissa-horizon-client
     ];
@@ -72,7 +78,10 @@
   environment.variables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
+    NH_FLAKE = "/home/pme/nix-config/";
   };
+
+  users.groups.plugdev = {};
 
   ##############################
   ### Gnome ####################
