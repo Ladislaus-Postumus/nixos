@@ -11,7 +11,6 @@
     firefox
     kitty
     keepassxc
-    nh
     wl-clipboard
     keymapp
 
@@ -35,6 +34,14 @@
     siril
   ];
 
+  imports = [ ./desktop-hardware.nix ../nixos-modules/winboat.nix ];
+
+  programs.nh = {
+    enable = true;
+    clean.enable = true;
+    clean.extraArgs = "--keep-since 14d --keep 5";
+    flake = "/home/pme/nix-config#nixosConfigurations.desktop";
+  };
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
@@ -78,7 +85,6 @@
   environment.variables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
-    NH_FLAKE = "/home/pme/nix-config/";
   };
 
   users.groups.plugdev = {};
@@ -152,8 +158,6 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-
-  imports = [ ./desktop-hardware.nix ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
