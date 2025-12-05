@@ -13,6 +13,14 @@
     keepassxc
     wl-clipboard
     keymapp
+    fzf
+    bat
+    eza
+    starship
+    yazi
+    asciiquarium
+    cowsay
+    lazygit
 
     virt-manager
     virt-viewer
