@@ -34,6 +34,9 @@
 
     heroic
     prismlauncher
+    nexusmods-app
+    pciutils
+    lutris
 
     mpv
     feh
