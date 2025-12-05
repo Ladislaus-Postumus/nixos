@@ -62,6 +62,7 @@
     clean.extraArgs = "--keep-since 14d --keep 5";
     flake = "/home/pme/nix-config#nixosConfigurations.desktop";
   };
+
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
@@ -118,7 +119,7 @@
    services.desktopManager.gnome.enable = true;
 
   services.gnome = {
-    core-apps.enable = false;
+    #core-apps.enable = false;
     games.enable = false;
   };
   environment.gnome.excludePackages = with pkgs; [ gnome-tour gnome-user-docs ];
@@ -180,8 +181,23 @@
 
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.enable = false;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub = {
+    enable = true;
+    device = "nodev";
+    efiSupport = true;
+    useOSProber = true;
+    extraEntries = ''
+      menuentry "Gaming Linux" {
+        insmod btrfs
+        set root=(hd2,2)
+        linux /@/boot/vmlinuz-linux-zen root=UUID=3da8ebd8-337c-4c70-a8bb-19ba66938f1d rootflags=subvol=@ rw
+        initrd /@/boot/initramfs-linux-zen.img
+      }
+'';
+
+  };
 
   networking.hostName = "desktop";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
