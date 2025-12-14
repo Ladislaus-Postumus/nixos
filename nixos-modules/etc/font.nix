@@ -5,8 +5,9 @@
       ubuntu-sans
     ];
     fontconfig = {
+      enable = true;
       defaultFonts = {
-        sansSerif = ["Ubuntu"];
+        sansSerif = ["Ubuntu Sans"];
         monospace = ["JetBrainsMono Nerd Font" "Ubuntu Mono"];
       };
     };
