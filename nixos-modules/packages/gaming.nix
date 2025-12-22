@@ -12,7 +12,6 @@ in {
     environment.systemPackages = with pkgs; [
       heroic
       prismlauncher
-      lutris
       pciutils
     ];
 
