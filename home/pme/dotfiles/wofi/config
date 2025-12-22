@@ -1,0 +1,9 @@
+style = /home/pme/.config/wofi/style.css
+
+show = drun
+
+prompt = Run:
+
+allow_images = true
+
+drun-display_generic = false
