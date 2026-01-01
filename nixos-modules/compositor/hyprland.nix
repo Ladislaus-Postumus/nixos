@@ -12,6 +12,7 @@ in {
       hyprsunset
       waybar
       wofi
+      hyprpolkitagent
     ];
 
     programs.hyprland = {
