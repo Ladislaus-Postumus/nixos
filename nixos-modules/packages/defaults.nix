@@ -1,24 +1,26 @@
 {pkgs, ...}: {
   environment.systemPackages = with pkgs; [
-    kitty
-    neovim
-    git
-    lazygit
-    wl-clipboard
-    firefox
-    keepassxc
-    fzf
+    asciiquarium
     bat
+    cowsay
+    discord
     eza
+    fastfetch
+    feh
+    firefox
+    fzf
+    git
+    keepassxc
+    kitty
+    lazygit
+    mpv
+    neovim
     starship
+    syncthing
+    unzip
+    wl-clipboard
+    xfce.thunar
     yazi
     zip
-    unzip
-    mpv
-    feh
-    syncthing
-    discord
-    asciiquarium
-    cowsay
   ];
 }
