@@ -12,6 +12,7 @@ in {
     environment.systemPackages = with pkgs; [
       heroic
       prismlauncher
+      faugus-launcher
       pciutils
     ];
 
