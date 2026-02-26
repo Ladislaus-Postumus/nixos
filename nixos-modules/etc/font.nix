@@ -3,6 +3,8 @@
     packages = with pkgs; [
       nerd-fonts.jetbrains-mono
       ubuntu-sans
+      noto-fonts
+      noto-fonts-color-emoji
     ];
     fontconfig = {
       enable = true;

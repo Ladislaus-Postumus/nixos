@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   environment.systemPackages = with pkgs; [
     asciiquarium
     bat
@@ -22,5 +23,18 @@
     xfce.thunar
     yazi
     zip
+
+    omnissa-horizon-client
+
+    adwaita-fonts
+    adwaita-icon-theme
+    catppuccin-qt5ct
+    libsForQt5.qt5ct
+    kdePackages.qt6ct
+    hicolor-icon-theme
+
+    hledger
   ];
+
+  nixpkgs.config.allowUnfree = true;
 }

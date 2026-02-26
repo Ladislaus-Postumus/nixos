@@ -13,6 +13,7 @@ in {
       waybar
       wofi
       hyprpolkitagent
+      quickshell
     ];
 
     programs.hyprland = {

@@ -2,19 +2,38 @@
   inputs,
   pkgs,
   ...
-}: let
-  vimSpellDe = pkgs.runCommand "vim-spell-de" {} ''
+}:
+let
+  vimSpellDe = pkgs.runCommand "vim-spell-de" { } ''
     mkdir -p $out/share/vim/vimfiles/spell
-    cp ${pkgs.fetchurl {
-      url = "https://ftp.nluug.nl/pub/vim/runtime/spell/de.utf-8.spl";
-      hash = "sha256-c8cQfqM5hWzb6SHeuSpFk5xN5uucByYdobndGfaDo9E=";
-    }} $out/share/vim/vimfiles/spell/de.utf-8.spl
-    cp ${pkgs.fetchurl {
-      url = "https://ftp.nluug.nl/pub/vim/runtime/spell/de.utf-8.sug";
-      hash = "sha256-E9Ds+Shj2J72DNSopesqWhOg6Pm6jRxqvkerqFcUqUg=";
-    }} $out/share/vim/vimfiles/spell/de.utf-8.sug
+    cp ${
+      pkgs.fetchurl {
+        url = "https://ftp.nluug.nl/pub/vim/runtime/spell/de.utf-8.spl";
+        hash = "sha256-c8cQfqM5hWzb6SHeuSpFk5xN5uucByYdobndGfaDo9E=";
+      }
+    } $out/share/vim/vimfiles/spell/de.utf-8.spl
+    cp ${
+      pkgs.fetchurl {
+        url = "https://ftp.nluug.nl/pub/vim/runtime/spell/de.utf-8.sug";
+        hash = "sha256-E9Ds+Shj2J72DNSopesqWhOg6Pm6jRxqvkerqFcUqUg=";
+      }
+    } $out/share/vim/vimfiles/spell/de.utf-8.sug
   '';
-in {
+
+  vim-dadbod-source = pkgs.vimUtils.buildVimPlugin {
+    name = "vim-dadbod";
+    src = inputs.vim-dadbod;
+  };
+  vim-dadbod-ui-source = pkgs.vimUtils.buildVimPlugin {
+    name = "vim-dadbod-ui";
+    src = inputs.vim-dadbod-ui;
+  };
+  vim-dadbod-completion-source = pkgs.vimUtils.buildVimPlugin {
+    name = "vim-dadbod-completion";
+    src = inputs.vim-dadbod-completion;
+  };
+in
+{
   imports = [
     inputs.nvf.nixosModules.default
   ];
@@ -48,11 +67,15 @@ in {
 
       spellcheck = {
         enable = true;
-        languages = ["en" "de"];
+        languages = [
+          "en"
+          "de"
+        ];
       };
 
       additionalRuntimePaths = [
         "${vimSpellDe}/share/vim/vimfiles"
+        #"$HOME/.config/nvim-extra"
       ];
 
       theme = {
@@ -73,6 +96,9 @@ in {
 
         nix.enable = true;
         bash.enable = true;
+        qml.enable = true;
+        sql.enable = true;
+        sql.dialect = "oracle";
       };
 
       diagnostics = {
@@ -80,14 +106,13 @@ in {
       };
 
       # TODO
-      #formatter.conform-nvim.enable = false;
-      #diagnostics.nvim-lint.enable = false;
+      formatter.conform-nvim.enable = true;
+      diagnostics.nvim-lint.enable = true;
       #debugger.nvim-dap.enable = false;
 
-      # // TODO //
-      # autocomplete.blink-cmp = {
-      #   enable = false;
-      # };
+      autocomplete.blink-cmp = {
+        enable = true;
+      };
 
       visuals = {
         indent-blankline.enable = true;
@@ -128,7 +153,39 @@ in {
       ui = {
         nvim-ufo.enable = true;
         smartcolumn.enable = true;
-        noice.enable = true;
+
+        noice = {
+          enable = true;
+          setupOpts = {
+            lsp = {
+              hover = {
+                enabled = true;
+                view = "popup";
+              };
+              signature = {
+                enabled = true;
+                view = "popup";
+              };
+              documentation = {
+                enabled = true;
+                view = "popup";
+              };
+            };
+            views = {
+              popup = {
+                size = {
+                  max_width = 120;
+                  max_height = 40;
+                };
+              };
+            };
+            presets = {
+              inc_rename = true;
+              lsp_doc_border = true;
+            };
+          };
+        };
+
         fastaction.enable = true;
         illuminate.enable = true;
         breadcrumbs.enable = true;
@@ -165,7 +222,7 @@ in {
         # };
         #   colors.enable = true;
         comment.enable = true;
-        completion.enable = true;
+        # completion.enable = true;
         #   cursorword.enable = true;
         #   diff.enable = true;
         #   doc.enable = false;
@@ -197,6 +254,42 @@ in {
         #   trailspace.enable = true;
         #   visits.enable = true;
       };
+
+      extraPlugins = {
+        vim-dadbod = {
+          package = vim-dadbod-source;
+        };
+        vim-dadbod-ui = {
+          package = vim-dadbod-ui-source;
+        };
+        vim-dadbod-completion = {
+          package = vim-dadbod-completion-source;
+        };
+      };
+
+      keymaps = [
+        {
+          mode = "i";
+          key = "<C-Space>";
+          action = "function () require('blink.cmp').show() end";
+          lua = true;
+          silent = true;
+        }
+        {
+          mode = "n";
+          key = "<C-q>";
+          action = "vim.lsp.buf.hover";
+          lua = true;
+          silent = true;
+        }
+        {
+          mode = "i";
+          key = "<C-q>";
+          action = "vim.lsp.buf.hover";
+          lua = true;
+          silent = true;
+        }
+      ];
     };
   };
 }

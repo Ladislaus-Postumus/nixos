@@ -3,17 +3,21 @@
   lib,
   config,
   ...
-}: let
+}:
+let
   inherit (lib) mkEnableOption mkIf;
-in {
+in
+{
   options.my.features.gaming.enable = mkEnableOption "apps for gaming";
 
   config = mkIf config.my.features.gaming.enable {
     environment.systemPackages = with pkgs; [
-      heroic
-      prismlauncher
       faugus-launcher
+      heroic
+      limo
+      openmw
       pciutils
+      prismlauncher
     ];
 
     programs.steam = {
@@ -23,7 +27,7 @@ in {
       localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
     };
 
-    boot.kernelParams = ["amdgpu.ppfeaturemask=0xffffffff"];
+    boot.kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" ];
     programs.corectrl.enable = true;
   };
 }
