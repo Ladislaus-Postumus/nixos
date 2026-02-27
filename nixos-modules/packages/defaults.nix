@@ -23,6 +23,8 @@
     xfce.thunar
     yazi
     zip
+    espanso-wayland
+    zoxide
 
     omnissa-horizon-client
 

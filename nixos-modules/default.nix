@@ -16,5 +16,6 @@
     ./packages/astro.nix
     ./packages/defaults.nix
     ./packages/gaming.nix
+    ./etc/ssh.nix
   ];
 }
