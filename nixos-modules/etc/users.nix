@@ -1,14 +1,26 @@
-{...}: {
+{ ... }:
+{
   users.users.pme = {
     isNormalUser = true;
     description = "Philipp Melzer";
-    extraGroups = ["networkmanager" "wheel" "video" "libvirt" "kvm" "vboxusers" "libvirtd" "plugdev" "docker"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "video"
+      "libvirt"
+      "kvm"
+      "vboxusers"
+      "libvirtd"
+      "plugdev"
+      "docker"
+      "sftpusers"
+    ];
   };
 
   users.users.guest = {
     isNormalUser = true;
     description = "Guest";
-    extraGroups = [];
+    extraGroups = [ ];
   };
 
   systemd.tmpfiles.rules = [
@@ -32,6 +44,15 @@
     VISUAL = "nvim";
   };
 
-  users.groups.plugdev = {};
-  users.groups.docker = {};
+  users.users.scanner = {
+    isSystemUser = true;
+    createHome = false;
+    home = "/srv/ftp/scanner";
+    group = "ftpusers";
+  };
+  #users.users.paperless.extraGroups = [ "ftpusers" ];
+
+  users.groups.plugdev = { };
+  users.groups.docker = { };
+  users.groups.ftpusers = { };
 }

@@ -1,24 +1,17 @@
 { ... }:
 {
-  services.openssh = {
+  networking.firewall.allowedTCPPorts = [ 21 ];
+
+  services.vsftpd = {
     enable = true;
-    settings = {
-      Subsystem = "sftp internal-sftp";
-    };
+    localRoot = "/srv/ftp/scanner/";
+    writeEnable = true;
+    chrootlocalUser = true;
+    allowWriteableChroot = true;
+    localUsers = true;
     extraConfig = ''
-      Match Group sftpusers
-        ChrootDirectory /srv/sftp/%u
-        ForceCommand internal-sftp
-        X11Forwarding no
-        AllowTcpForwarding no
+      listen=YES
+      listen_ipv6=NO
     '';
   };
-
-  users.users.sftpuser = {
-    isNormalUser = true;
-    createHome = false;
-    home = "/srv/sftp/sftpuser";
-    group = "sftpusers";
-  };
-  users.groups.sftpusers = { };
 }
