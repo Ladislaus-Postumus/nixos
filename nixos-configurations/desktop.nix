@@ -23,5 +23,6 @@
   security.pam.u2f = {
     control = "sufficient";
     enable = true;
+    settings.cue = true;
   };
 }

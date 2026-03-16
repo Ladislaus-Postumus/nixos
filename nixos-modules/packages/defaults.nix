@@ -25,6 +25,10 @@
     zip
     espanso-wayland
     zoxide
+    ripgrep
+
+    nitrokey-app2
+    fido2-manage
 
     omnissa-horizon-client
 
@@ -36,7 +40,16 @@
     hicolor-icon-theme
 
     hledger
+
+    orca
   ];
+
+  services.speechd.enable = true;
+  users.extraUsers.pme.packages = with pkgs; [ speechd ];
+
+  environment.etc."speech-dispatcher/speechd.conf".text = ''
+    DefaultModule espeak
+  '';
 
   nixpkgs.config.allowUnfree = true;
 }
