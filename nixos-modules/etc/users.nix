@@ -49,8 +49,8 @@
     createHome = false;
     home = "/srv/ftp/scanner";
     group = "ftpusers";
+    extraGroups = [ "paperless" ];
   };
-  #users.users.paperless.extraGroups = [ "ftpusers" ];
 
   users.groups.plugdev = { };
   users.groups.docker = { };

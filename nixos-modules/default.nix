@@ -17,7 +17,7 @@
     ./packages/defaults.nix
     ./packages/gaming.nix
 
-    ./etc/ssh.nix
+    ./etc/ftp.nix
     ./etc/paperless.nix
   ];
 }

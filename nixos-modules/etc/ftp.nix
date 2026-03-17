@@ -12,6 +12,15 @@
     extraConfig = ''
       listen=YES
       listen_ipv6=NO
+
+      local_umask=027
     '';
   };
+
+  systemd.tmpfiles.rules = [
+    "d /srv 0755 root root - -"
+    "d /srv/ftp 0751 root ftpusers - -"
+    "d /srv/ftp/scanner 2755 scanner ftpusers - -"
+    "d /srv/ftp/scanner/input 2771 paperless paperless - -"
+  ];
 }
