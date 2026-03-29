@@ -38,6 +38,6 @@ in
       "amdgpu"
       "intel"
     ];
-    services.xserver.libinput.enable = true;
+    services.libinput.enable = true;
   };
 }

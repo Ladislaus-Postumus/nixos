@@ -24,7 +24,7 @@
     syncthing
     unzip
     wl-clipboard
-    xfce.thunar
+    thunar
     yazi
     zip
     zoxide
