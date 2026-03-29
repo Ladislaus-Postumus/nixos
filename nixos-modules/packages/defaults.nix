@@ -3,8 +3,11 @@
   environment.systemPackages = with pkgs; [
     asciiquarium
     bat
+    btop
     cowsay
     discord
+    easyeffects
+    espanso-wayland
     eza
     fastfetch
     feh
@@ -16,6 +19,7 @@
     lazygit
     mpv
     neovim
+    ripgrep
     starship
     syncthing
     unzip
@@ -23,14 +27,13 @@
     xfce.thunar
     yazi
     zip
-    espanso-wayland
     zoxide
-    ripgrep
 
     nitrokey-app2
     fido2-manage
 
     omnissa-horizon-client
+    discord-canary
 
     adwaita-fonts
     adwaita-icon-theme
@@ -41,15 +44,20 @@
 
     hledger
 
-    orca
+    i3status-rust
+    redshift
+    rofi
+    dunst
+    xclip
+    haskellPackages.greenclip
+    flameshot
+    picom
+    xdotool
+    libnotify
+    polkit_gnome
   ];
 
-  services.speechd.enable = true;
-  users.extraUsers.pme.packages = with pkgs; [ speechd ];
-
-  environment.etc."speech-dispatcher/speechd.conf".text = ''
-    DefaultModule espeak
-  '';
+  security.polkit.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 }
