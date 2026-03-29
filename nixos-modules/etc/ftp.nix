@@ -19,8 +19,8 @@
 
   systemd.tmpfiles.rules = [
     "d /srv 0755 root root - -"
-    "d /srv/ftp 0751 root ftpusers - -"
+    "d /srv/ftp 0755 root ftpusers - -"
     "d /srv/ftp/scanner 2755 scanner ftpusers - -"
-    "d /srv/ftp/scanner/input 2771 paperless paperless - -"
+    "d /srv/ftp/scanner/input 2775 paperless paperless - -"
   ];
 }
