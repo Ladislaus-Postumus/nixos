@@ -6,11 +6,6 @@
 }:
 let
   inherit (lib) mkEnableOption mkIf;
-  myDwm = pkgs.dwm.overrideAttrs (old: {
-    patches = (old.patches or []) ++ [
-      ./config.patch
-    ];
-  });
 in
 {
   options.my.features.gnome.enable = mkEnableOption "enable gnome compositor";
@@ -29,8 +24,6 @@ in
     ];
 
     services.xserver.windowManager = {
-      dwm.enable = true;
-      dwm.package = myDwm;
       i3.enable = true;
     };
 
