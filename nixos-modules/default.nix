@@ -2,6 +2,7 @@
   imports = [
     ./nvim.nix
 
+    ./compositor/dwm.nix
     ./compositor/gnome.nix
     ./compositor/hyprland.nix
     ./etc/default_settings.nix

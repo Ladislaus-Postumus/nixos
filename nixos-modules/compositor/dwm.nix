@@ -4,34 +4,19 @@
   lib,
   ...
 }:
-
-with pkgs;
 let
-  # Fetch upstream dwm
-  dwmSrc = builtins.fetchGit {
-    url = "git://git.suckless.org/dwm";
-    ref = "6.6";
-    shallow = true; # fetch just the tag, faster
-  };
+  inherit (lib) mkEnableOption mkIf;
 in
 {
-  # Expose a package you can use in your system
-  environment.systemPackages = with pkgs; [
-    (stdenv.mkDerivation rec {
-      pname = "dwm-custom";
-      version = "6.6";
-
-      src = dwmSrc;
-
-      patches = [ ./config.patch ];
-
-      buildPhase = ''
-        make
-      '';
-      installPhase = ''
-        mkdir -p $out/bin
-        cp dwm $out/bin/
-      '';
-    })
-  ];
+  options.my.features.dwm.enable = mkEnableOption "enable dwm window manager";
+  config = mkIf config.my.features.dwm.enable {
+    services.xserver.windowManager.dwm = {
+      enable = true;
+      package = pkgs.dwm.overrideAttrs (old: {
+        postPatch = (old.postPatch or "") + ''
+          cp ${./config.h} config.h
+        '';
+      });
+    };
+  };
 }
