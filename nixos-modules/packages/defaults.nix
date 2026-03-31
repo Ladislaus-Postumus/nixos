@@ -7,7 +7,7 @@
     cowsay
     discord
     easyeffects
-    espanso-wayland
+    espanso
     eza
     fastfetch
     feh
@@ -45,7 +45,7 @@
     hledger
 
     i3status-rust
-    redshift
+    gammastep
     rofi
     dunst
     xclip
@@ -55,6 +55,9 @@
     xdotool
     libnotify
     polkit_gnome
+    xinit
+    dmenu
+    st
   ];
 
   security.polkit.enable = true;

@@ -1,8 +1,8 @@
 { pkgs, ... }:
 {
   my.features.dwm.enable = true;
-  my.features.gnome.enable = true;
-  my.features.hyprland.enable = true;
+  my.features.gnome.enable = false;
+  my.features.hyprland.enable = false;
 
   my.features.astro.enable = false;
   my.features.gaming.enable = true;
