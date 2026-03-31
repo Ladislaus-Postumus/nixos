@@ -14,6 +14,7 @@
       "plugdev"
       "docker"
       "sftpusers"
+      "input"
     ];
   };
 
