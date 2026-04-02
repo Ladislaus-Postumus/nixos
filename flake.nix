@@ -34,6 +34,8 @@
       url = "https://flakehub.com/f/AshleyYakeley/NixVirt/*.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    stylix.url = "github:danth/stylix";
   };
 
   outputs =
@@ -48,6 +50,7 @@
       vim-dadbod,
       vim-dadbod-ui,
       vim-dadbod-completion,
+      stylix,
       ...
     }:
     flake-parts.lib.mkFlake { inherit inputs; } {

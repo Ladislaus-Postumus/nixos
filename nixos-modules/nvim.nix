@@ -78,12 +78,12 @@ in
         #"$HOME/.config/nvim-extra"
       ];
 
-      theme = {
-        enable = true;
-        name = "catppuccin";
-        style = "mocha";
-        transparent = true;
-      };
+      #theme = {
+      #  enable = true;
+      #  name = "catppuccin";
+      #  style = "mocha";
+      #  transparent = true;
+      #};
 
       lsp = {
         enable = true;
