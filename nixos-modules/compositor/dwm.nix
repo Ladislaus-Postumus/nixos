@@ -21,9 +21,16 @@ in
       });
     };
 
+    environment.systemPackages = with pkgs; [
+      dwmblocks
+      (pkgs.dwmblocks.overrideAttrs (old: {
+        postPatch = (old.postPatch or "") + ''
+          cp ${./blocks.h} blocks.h
+        '';
+      }))
+    ];
+
     services.xserver.videoDrivers = [ "amdgpu" ];
     services.libinput.enable = true;
-
-    #services.xserver.displayManager.lightdm.enable = false;
   };
 }
