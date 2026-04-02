@@ -7,7 +7,6 @@
     cowsay
     discord
     easyeffects
-    espanso
     eza
     fastfetch
     feh
@@ -58,7 +57,12 @@
     xinit
     dmenu
     st
+
+    xorg.setxkbmap
+    xdotool
   ];
+
+  services.espanso.enable = true;
 
   security.polkit.enable = true;
 
