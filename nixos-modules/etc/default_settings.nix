@@ -30,4 +30,10 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  programs.ssh.extraConfig = ''
+Host github.com
+  IdentityFile ~/.ssh/id_ed25519_sk
+  IdentitiesOnly yes
+    '';
 }

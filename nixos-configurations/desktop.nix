@@ -1,4 +1,9 @@
-{ pkgs, config, inputs, ... }:
+{
+  pkgs,
+  config,
+  inputs,
+  ...
+}:
 {
   my.features.dwm.enable = true;
   my.features.gnome.enable = false;
@@ -8,7 +13,10 @@
   my.features.gaming.enable = true;
   my.features.keyboard.enable = true;
 
-  imports = [ ./desktop-hardware.nix inputs.stylix.nixosModules.stylix ];
+  imports = [
+    ./desktop-hardware.nix
+    inputs.stylix.nixosModules.stylix
+  ];
   networking.hostName = "desktop";
   system.stateVersion = "24.11";
 
@@ -28,10 +36,20 @@
     settings.cue = true;
   };
 
-  stylix = {
+  security.polkit.extraConfig = ''
+    polkit.addRule(function(action, subject) {
+      if (action.id == "org.corectrl.helper.init" ||
+          action.id == "org.corectrl.helperkiller.init") {
+        return polkit.Result.AUTH_ADMIN;
+      }
+      return null;
+    });
+  '';
+
+  system.autoUpgrade = {
     enable = true;
-    polarity = "dark";
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
-    image = config.lib.stylix.pixel "base0A";
+    flake = "/home/pme/nix-config/";
+    operation = "boot";
+    dates = "daily";
   };
 }

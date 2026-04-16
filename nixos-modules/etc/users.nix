@@ -38,8 +38,6 @@
     }
   ];
 
-  home-manager.users.pme = import ../../home/pme;
-
   environment.variables = {
     EDITOR = "nvim";
     VISUAL = "nvim";

@@ -27,6 +27,7 @@
     yazi
     zip
     zoxide
+    qutebrowser
 
     nitrokey-app2
     fido2-manage
@@ -58,8 +59,15 @@
     dmenu
     st
 
-    xorg.setxkbmap
+    pamixer
+    networkmanager
+    bluez
+    setxkbmap
     xdotool
+    alsa-utils
+    playerctl
+
+    devcontainer
   ];
 
   services.espanso.enable = true;
