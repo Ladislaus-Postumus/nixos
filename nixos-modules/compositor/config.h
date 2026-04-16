@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+#include <X11/XF86keysym.h>
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
@@ -70,6 +71,13 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_b,      spawn,          {.v = browsercmd } },
 	{ MODKEY,                       XK_v,      spawn,          SHCMD("greenclip print | dmenu | xclip -selection clipboard") },
 	{ MODKEY,                       XK_p,      spawn,          {.v = flameshotcmd } },
+  { 0, XF86XK_AudioRaiseVolume, spawn, SHCMD("amixer set Master 5%+; kill -RTMIN+1 $(pidof dwmblocks)") },
+  { 0, XF86XK_AudioLowerVolume, spawn, SHCMD("amixer set Master 5%-; kill -RTMIN+1 $(pidof dwmblocks)") },
+  { 0, XF86XK_AudioMute,        spawn, SHCMD("amixer set Master toggle; kill -RTMIN+1 $(pidof dwmblocks)") },
+  { 0, XF86XK_AudioPrev,        spawn, SHCMD("playerctl previous") },
+  { 0, XF86XK_AudioPlay,        spawn, SHCMD("playerctl play-pause") },
+  { 0, XF86XK_AudioNext,        spawn, SHCMD("playerctl next") },
+
 	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },

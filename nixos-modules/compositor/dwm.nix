@@ -22,15 +22,24 @@ in
     };
 
     environment.systemPackages = with pkgs; [
-      dwmblocks
       (pkgs.dwmblocks.overrideAttrs (old: {
         postPatch = (old.postPatch or "") + ''
-          cp ${./blocks.h} blocks.h
+          cp ${./blocks.h} blocks.def.h
+          substituteInPlace dwmblocks.c \
+            --replace "void termhandler()" "void termhandler(int signum)"
         '';
       }))
     ];
 
     services.xserver.videoDrivers = [ "amdgpu" ];
     services.libinput.enable = true;
+
+    programs.dconf.enable = true;
+    xdg.portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
+      ];
+    };
   };
 }
