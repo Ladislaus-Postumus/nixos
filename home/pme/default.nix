@@ -10,5 +10,23 @@
     polarity = "dark";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
     targets.xresources.enable = true;
+    fonts = {
+      monospace = {
+        package = pkgs.jetbrains-mono;
+        name = "JetBrainsMono NerdFont";
+      };
+      sansSerif = {
+        package = pkgs.ubuntu-sans;
+        name = "Ubuntu Sans";
+      };
+      serif = {
+        package = pkgs.ubuntu-sans;
+        name = "Ubuntu Sans";
+      };
+      emoji = {
+        package = pkgs.noto-fonts-color-emoji;
+        name = "Noto Color Emoji";
+      };
+    };
   };
 }
