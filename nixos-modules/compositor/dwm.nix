@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  inputs,
   ...
 }:
 let
@@ -14,11 +15,14 @@ in
     services.xserver.displayManager.startx.enable = true;
     services.xserver.windowManager.dwm = {
       enable = true;
-      package = pkgs.dwm.overrideAttrs (old: {
-        postPatch = (old.postPatch or "") + ''
-          cp ${./config.h} config.h
-        '';
-      });
+      package = pkgs.stdenv.mkDerivation {
+        pname = "dwm";
+        version = "custom";
+        src = inputs.dwm-custom;
+        buildInputs = with pkgs; [libx11 libxft libxinerama];
+        buildPhase = "make";
+        installPhase = "make PREFIX=$out install";
+      };
     };
 
     environment.systemPackages = with pkgs; [

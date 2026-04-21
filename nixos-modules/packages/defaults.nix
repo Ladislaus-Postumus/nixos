@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   environment.systemPackages = with pkgs; [
     asciiquarium
@@ -57,7 +57,7 @@
     polkit_gnome
     xinit
     dmenu
-    st
+    (st.overrideAttrs { src = inputs.st-custom; })
 
     pamixer
     networkmanager
@@ -68,6 +68,7 @@
     playerctl
 
     devcontainer
+    just
   ];
 
   services.espanso.enable = true;

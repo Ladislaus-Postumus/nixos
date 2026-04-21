@@ -36,6 +36,15 @@
     };
 
     stylix.url = "github:danth/stylix";
+
+    dwm-custom = {
+      url = "github:Ladislaus-Postumus/dwm-custom";
+      flake = false;
+    };
+    st-custom = {
+      url = "github:Ladislaus-Postumus/st-custom";
+      flake = false;
+    };
   };
 
   outputs =
@@ -51,6 +60,8 @@
       vim-dadbod-ui,
       vim-dadbod-completion,
       stylix,
+      dwm-custom,
+      st-custom,
       ...
     }:
     flake-parts.lib.mkFlake { inherit inputs; } {
