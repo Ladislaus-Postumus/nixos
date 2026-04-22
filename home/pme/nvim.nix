@@ -35,7 +35,7 @@ let
 in
 {
   imports = [
-    inputs.nvf.nixosModules.default
+    inputs.nvf.homeManagerModules.default
   ];
   programs.nvf = {
     enable = true;

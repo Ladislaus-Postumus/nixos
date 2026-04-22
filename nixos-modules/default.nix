@@ -1,7 +1,5 @@
 {...}: {
   imports = [
-    ./nvim.nix
-
     ./compositor/dwm.nix
     ./compositor/gnome.nix
     ./compositor/hyprland.nix

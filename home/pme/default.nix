@@ -1,7 +1,9 @@
-{pkgs, inputs, ...}: {
+{ pkgs, inputs, ... }:
+
+{
   home.stateVersion = "25.11";
 
-  imports = [inputs.stylix.homeModules.stylix];
+  imports = [ inputs.stylix.homeModules.stylix ./nvim.nix ];
 
   programs.lutris.enable = true;
 
@@ -13,7 +15,7 @@
     fonts = {
       monospace = {
         package = pkgs.jetbrains-mono;
-        name = "JetBrainsMono NerdFont";
+        name = "JetBrainsMono Nerd Font";
       };
       sansSerif = {
         package = pkgs.ubuntu-sans;
@@ -26,6 +28,11 @@
       emoji = {
         package = pkgs.noto-fonts-color-emoji;
         name = "Noto Color Emoji";
+      };
+
+      sizes = {
+        applications = 14;
+        desktop = 12;
       };
     };
   };
