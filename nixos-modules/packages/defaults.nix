@@ -69,6 +69,7 @@
 
     devcontainer
     just
+    maim
   ];
 
   services.espanso.enable = true;
