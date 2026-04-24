@@ -19,40 +19,27 @@ let
       }
     } $out/share/vim/vimfiles/spell/de.utf-8.sug
   '';
-
-  vim-dadbod-source = pkgs.vimUtils.buildVimPlugin {
-    name = "vim-dadbod";
-    src = inputs.vim-dadbod;
-  };
-  vim-dadbod-ui-source = pkgs.vimUtils.buildVimPlugin {
-    name = "vim-dadbod-ui";
-    src = inputs.vim-dadbod-ui;
-  };
-  vim-dadbod-completion-source = pkgs.vimUtils.buildVimPlugin {
-    name = "vim-dadbod-completion";
-    src = inputs.vim-dadbod-completion;
-  };
 in
 {
+
   imports = [
     inputs.nvf.homeManagerModules.default
   ];
   programs.nvf = {
     enable = true;
     settings.vim = {
-      viAlias = true;
-      vimAlias = true;
-      undoFile.enable = true;
-      treesitter.enable = true;
-      syntaxHighlighting = true;
-      telescope.enable = true;
-      lazy.enable = true;
-      git.enable = true;
-      fzf-lua.enable = true;
       clipboard = {
         enable = true;
         registers = "unnamed,unnamedplus";
       };
+      git.enable = true;
+      lazy.enable = true;
+      searchCase = "smart";
+      telescope.enable = true;
+      treesitter.enable = true;
+      undoFile.enable = true;
+      viAlias = true;
+      vimAlias = true;
 
       luaConfigPost = ''
         vim.o.foldcolumn = '1'
@@ -75,18 +62,15 @@ in
 
       additionalRuntimePaths = [
         "${vimSpellDe}/share/vim/vimfiles"
-        #"$HOME/.config/nvim-extra"
       ];
-
-      #theme = {
-      #  enable = true;
-      #  name = "catppuccin";
-      #  style = "mocha";
-      #  transparent = true;
-      #};
 
       lsp = {
         enable = true;
+        #lspSignature.enable = true;
+        lspkind.enable = true;
+        lspsaga.enable = true;
+        null-ls.enable = true;
+        trouble.enable = true;
       };
       languages = {
         enableDAP = true;
@@ -94,20 +78,26 @@ in
         enableFormat = true;
         enableTreesitter = true;
 
-        nix.enable = true;
+        # lsp languages
         bash.enable = true;
+        clang.enable = true;
+        cmake.enable = true;
+        json.enable = true;
+        nix.enable = true;
         qml.enable = true;
-        sql.enable = true;
+        rust.enable = true;
         sql.dialect = "oracle";
+        sql.enable = true;
+        toml.enable = true;
+        yaml.enable = true;
       };
 
       diagnostics = {
         enable = true;
+        nvim-lint.enable = true;
       };
 
-      # TODO
       formatter.conform-nvim.enable = true;
-      diagnostics.nvim-lint.enable = true;
       #debugger.nvim-dap.enable = false;
 
       autocomplete.blink-cmp = {
@@ -117,29 +107,23 @@ in
       visuals = {
         indent-blankline.enable = true;
         nvim-cursorline.enable = true;
-        #nvim-scrollbar.enable = true;
         nvim-web-devicons.enable = true;
         rainbow-delimiters.enable = true;
         tiny-devicons-auto-colors.enable = true;
         fidget-nvim.enable = true; # progress/lsp-progress message handler
         highlight-undo.enable = true;
-        cinnamon-nvim.enable = true; # smooth scrolling
         cellular-automaton.enable = true;
       };
 
       binds.whichKey.enable = true;
 
       utility = {
-        #yanky-nvim.enable = true;
-        #yanky-nvim.setupOpts.ring.storage = "memory";
         undotree.enable = true;
         smart-splits.enable = true;
         outline.aerial-nvim.enable = true;
         yazi-nvim.enable = true;
-        # motion.precognition.enable = true; # discovers motions (good for beginners), mostly annoying due to blank line
-        #   # TODO test, choose one? / choose mini
-        #   motion.leap.enable = false;
-        #   motion.hop.enable = false;
+        yazi-nvim.setupOpts.open_for_directories = true;
+
         #   motion.flash-nvim.enable = false;
         # vim-wakatime.enable = true; # tracks time und loc TODO
         mkdir.enable = true;
@@ -147,7 +131,6 @@ in
         icon-picker.enable = true;
         images.image-nvim.enable = true;
         images.image-nvim.setupOpts.backend = "kitty";
-        ccc.enable = true;
       };
 
       ui = {
@@ -180,7 +163,6 @@ in
               };
             };
             presets = {
-              inc_rename = true;
               lsp_doc_border = true;
             };
           };
@@ -202,79 +184,71 @@ in
 
       # runner.run-nvim.enable = true; # runs code in editor; todo want that?
 
-      # terminal.toggleterm.enable = true;
-      # projects.project-nvim.enable = true;
-      # notes.neorg.enable = true;
-      # navigation.harpoon.enable = true;
+      terminal.toggleterm.enable = true;
+
+      snippets = {
+        luasnip.enable = true;
+      };
 
       mini = {
         ai.enable = true;
         align.enable = true;
-        #   animate.enable = true;
-        #   basics.enable = true;
-        #   bracketed.enable = true;
-        #   bufremove.enable = true;
-        # clue.enable = true;
-        # clue.setupOpts = {
-        #   clues = [
-        #     { mode = "n"; triggers = [ "<leader>" ]; }
-        #   ];
-        # };
-        #   colors.enable = true;
         comment.enable = true;
-        # completion.enable = true;
         #   cursorword.enable = true;
         #   diff.enable = true;
         #   doc.enable = false;
         #   extra.enable = true;
-        #   files.enable = true;
-        #   fuzzy.enable = true;
         #   git.enable = true;
         #   hipatterns.enable = true;
         #   hues.enable = false;
         #   icons.enable = true;
-        #   indentscope.enable = true;
-        #   jump.enable = true;
-        #   jump2d.enable = true;
-        #   map.enable = true;
-        #   misc.enable = true;
-        #   move.enable = true;
         #   notify.enable = true;
         #   operators.enable = true;
-        #   pairs.enable = true;
+        pairs.enable = true;
         #   pick.enable = true;
-        #   sessions.enable = true;
-        #   snippets.enable = true;
         #   splitjoin.enable = true;
-        #   starter.enable = false;
         statusline.enable = true;
-        #   surround.enable = true;
+        surround.enable = true;
         tabline.enable = true;
         #   test.enable = false;
         #   trailspace.enable = true;
         #   visits.enable = true;
       };
 
-      extraPlugins = {
-        vim-dadbod = {
-          package = vim-dadbod-source;
-        };
-        vim-dadbod-ui = {
-          package = vim-dadbod-ui-source;
-        };
-        vim-dadbod-completion = {
-          package = vim-dadbod-completion-source;
+      assistant.codecompanion-nvim = {
+        enable = true;
+        setupOpts = {
+          adapters.ollama = "ollama";
+
+          strategies = {
+            chat.adapter = "ollama";
+            inline.enabled = false;
+          };
+
+          opts = {
+            adapter_options = {
+              ollama = {
+                model = "qwen2.5-coder:7b";
+              };
+            };
+            system_prompt = ''
+              You are an expert programming consultant. 
+              NEVER provide code aimed at full file replacement. 
+              Provide concise, highly logical snippets and explain the 'why'. 
+              I prefer to type the code myself to ensure I understand it.
+            '';
+          };
+
+          display.chat = {
+            window = {
+              layout = "vertical";
+              width = 0.35;
+            };
+          };
         };
       };
 
       keymaps = [
-        {
-          mode = "i";
-          key = "<C-Space>";
-          action = "function () require('blink.cmp').show() end";
-          lua = true;
-          silent = true;
-        }
         {
           mode = "n";
           key = "<C-q>";
@@ -288,6 +262,29 @@ in
           action = "vim.lsp.buf.hover";
           lua = true;
           silent = true;
+        }
+        {
+          mode = "n";
+          key = "<leader>aaa";
+          action = ":CellularAutomaton game_of_life";
+        }
+        {
+          key = "<leader>ac";
+          mode = [
+            "n"
+            "v"
+          ];
+          action = "<cmd>CodeCompanionChat Toggle<cr>";
+          desc = "AI Chat (Consultant Mode)";
+        }
+        {
+          key = "<leader>aa";
+          mode = [
+            "n"
+            "v"
+          ];
+          action = "<cmd>CodeCompanionActions<cr>";
+          desc = "AI Actions (Explain/LSP/etc)";
         }
       ];
     };
