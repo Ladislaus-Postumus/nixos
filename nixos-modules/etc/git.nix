@@ -24,6 +24,10 @@
       fetch.prune = true;
 
       url."git@github.com:".insteadOf = "https://github.com/";
+
+      aliases = {
+        l = "log --oneline --author=\"Philpp Melzer\"";
+      };
     };
   };
 }

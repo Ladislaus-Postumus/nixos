@@ -5,7 +5,7 @@
 
   imports = [ inputs.stylix.homeModules.stylix ./nvim.nix ];
 
-  programs.lutris.enable = true;
+  #programs.lutris.enable = true;
 
   stylix = {
     enable = true;
