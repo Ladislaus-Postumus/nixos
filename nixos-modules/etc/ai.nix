@@ -1,7 +1,8 @@
-{...}: {
+{ pkgs, ... }:
+{
   services.ollama = {
     enable = true;
-    loadModels = [ "qwen2.5-coder:7b" ];
-    acceleration = "rcom";
+    loadModels = [ "qwen2.5-coder:14b" ];
+    package = pkgs.ollama-vulkan;
   };
 }

@@ -218,11 +218,25 @@ in
       assistant.codecompanion-nvim = {
         enable = true;
         setupOpts = {
-          adapters.ollama = "ollama";
+          # We use a string here that nvf will pass to Lua
+          # This tells CodeCompanion: "For the 'ollama' adapter, use the built-in 'ollama' definition"
+          # adapters.ollama = pkgs.lib.mkRaw ''
+          #   require("codecompanion.adapters").extend("ollama", {
+          #     schema = {
+          #       model = {
+          #         default = "qwen2.5-coder:7b",
+          #       },
+          #     },
+          #   })
+          # '';
 
           strategies = {
-            chat.adapter = "ollama";
-            inline.enabled = false;
+            chat = {
+              adapter = "ollama";
+            };
+            inline = {
+              enabled = false;
+            };
           };
 
           opts = {
@@ -240,6 +254,7 @@ in
           };
 
           display.chat = {
+            show_token_count = true;
             window = {
               layout = "vertical";
               width = 0.35;
