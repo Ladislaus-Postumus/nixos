@@ -15,25 +15,6 @@
     };
 
     nvf.url = "github:notashelf/nvf";
-    vim-dadbod = {
-      url = "github:tpope/vim-dadbod";
-      flake = false;
-    };
-
-    vim-dadbod-ui = {
-      url = "github:kristijanhusak/vim-dadbod-ui";
-      flake = false;
-    };
-
-    vim-dadbod-completion = {
-      url = "github:kristijanhusak/vim-dadbod-completion";
-      flake = false;
-    };
-
-    nixvirt = {
-      url = "https://flakehub.com/f/AshleyYakeley/NixVirt/*.tar.gz";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     stylix.url = "github:danth/stylix";
 
@@ -45,6 +26,10 @@
       url = "github:Ladislaus-Postumus/st-custom";
       flake = false;
     };
+    dmenu-custom = {
+      url = "github:Ladislaus-Postumus/dmenu-custom";
+      flake = false;
+    };
   };
 
   outputs =
@@ -54,14 +39,11 @@
       flake-parts,
       ez-configs,
       nvf,
-      nixvirt,
       home-manager,
-      vim-dadbod,
-      vim-dadbod-ui,
-      vim-dadbod-completion,
       stylix,
       dwm-custom,
       st-custom,
+      dmenu-custom,
       ...
     }:
     flake-parts.lib.mkFlake { inherit inputs; } {

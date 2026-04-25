@@ -56,7 +56,7 @@
     libnotify
     polkit_gnome
     xinit
-    dmenu
+    (dmenu.overrideAttrs { src = inputs.dmenu-custom; })
     (st.overrideAttrs { src = inputs.st-custom; })
 
     pamixer
