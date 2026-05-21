@@ -15,6 +15,7 @@
       "docker"
       "sftpusers"
       "input"
+      "corectrl"
     ];
   };
 

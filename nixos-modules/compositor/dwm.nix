@@ -19,7 +19,11 @@ in
         pname = "dwm";
         version = "custom";
         src = inputs.dwm-custom;
-        buildInputs = with pkgs; [libx11 libxft libxinerama];
+        buildInputs = with pkgs; [
+          libx11
+          libxft
+          libxinerama
+        ];
         buildPhase = "make";
         installPhase = "make PREFIX=$out install";
       };

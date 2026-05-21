@@ -26,6 +26,7 @@ in
       dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
       localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
     };
+    programs.gamescope.enable = true;
 
     boot.kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" ];
     programs.corectrl.enable = true;

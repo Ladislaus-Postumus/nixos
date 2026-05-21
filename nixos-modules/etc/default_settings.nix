@@ -24,8 +24,9 @@
 
   # Configure keymap in X11
   services.xserver.xkb = {
-    layout = "us";
-    variant = "";
+    layout = "us,ara";
+    variant = ",buckwalter";
+    options = "grp:shifts_toggle";
   };
 
   # Allow unfree packages

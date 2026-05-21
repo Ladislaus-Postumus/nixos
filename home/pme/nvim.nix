@@ -50,6 +50,9 @@ in
         vim.o.shiftwidth=2
         vim.o.softtabstop=2
         vim.o.tabstop=2
+
+        vim.o.conceallevel=3
+        vim.o.concealcursor='nc'
       '';
 
       spellcheck = {
@@ -129,9 +132,10 @@ in
         mkdir.enable = true;
         diffview-nvim.enable = true;
         icon-picker.enable = true;
-        images.image-nvim.enable = true;
-        images.image-nvim.setupOpts.backend = "kitty";
+        ccc.enable = true;
       };
+
+      notes.neorg.enable = true;
 
       ui = {
         nvim-ufo.enable = true;
@@ -204,7 +208,6 @@ in
         #   icons.enable = true;
         #   notify.enable = true;
         #   operators.enable = true;
-        pairs.enable = true;
         #   pick.enable = true;
         #   splitjoin.enable = true;
         statusline.enable = true;
@@ -246,9 +249,9 @@ in
               };
             };
             system_prompt = ''
-              You are an expert programming consultant. 
-              NEVER provide code aimed at full file replacement. 
-              Provide concise, highly logical snippets and explain the 'why'. 
+              You are an expert programming consultant.
+              NEVER provide code aimed at full file replacement.
+              Provide concise, highly logical snippets and explain the 'why'.
               I prefer to type the code myself to ensure I understand it.
             '';
           };
@@ -281,7 +284,7 @@ in
         {
           mode = "n";
           key = "<leader>aaa";
-          action = ":CellularAutomaton game_of_life";
+          action = ":CellularAutomaton game_of_life";
         }
         {
           key = "<leader>ac";

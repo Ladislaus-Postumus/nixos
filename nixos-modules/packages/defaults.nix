@@ -28,6 +28,12 @@
     zip
     zoxide
     qutebrowser
+    ungoogled-chromium
+    gdu
+    # pgrep
+    procps
+    # killall
+    psmisc
 
     nitrokey-app2
     fido2-manage
@@ -66,13 +72,18 @@
     xdotool
     alsa-utils
     playerctl
+    xfce4-power-manager
 
     devcontainer
     just
     maim
+    rsync
   ];
 
-  services.espanso.enable = true;
+  services = {
+    espanso.enable = true;
+    upower.enable=true;
+  };
 
   security.polkit.enable = true;
 

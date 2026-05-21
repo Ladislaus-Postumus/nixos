@@ -9,7 +9,7 @@
   my.features.gnome.enable = false;
   my.features.hyprland.enable = false;
 
-  my.features.astro.enable = false;
+  my.features.astro.enable = true;
   my.features.gaming.enable = true;
   my.features.keyboard.enable = true;
 
@@ -35,16 +35,6 @@
     enable = true;
     settings.cue = true;
   };
-
-  security.polkit.extraConfig = ''
-    polkit.addRule(function(action, subject) {
-      if (action.id == "org.corectrl.helper.init" ||
-          action.id == "org.corectrl.helperkiller.init") {
-        return polkit.Result.AUTH_ADMIN;
-      }
-      return null;
-    });
-  '';
 
   system.autoUpgrade = {
     enable = true;

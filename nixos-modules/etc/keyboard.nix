@@ -8,13 +8,11 @@
 in {
   options.my.features.keyboard.enable = mkEnableOption "use zsa keyboard";
 
-  config = mkIf config.my.features.gaming.enable {
+  config = mkIf config.my.features.keyboard.enable {
     environment.systemPackages = with pkgs; [
       keymapp
     ];
 
-    services.udev.extraRules = ''
-      SUBSYSTEM=="hidraw", ATTRS{idVendor}=="3297", ATTRS{idProduct}=="1977", MODE="0660", GROUP="plugdev"
-    '';
+    hardware.keyboard.zsa.enable = true;
   };
 }

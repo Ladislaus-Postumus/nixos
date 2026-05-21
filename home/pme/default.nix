@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, inputs, config, ... }:
 
 {
   home.stateVersion = "25.11";
@@ -7,6 +7,7 @@
 
   #programs.lutris.enable = true;
 
+  gtk.gtk4.theme = config.gtk.theme;
   stylix = {
     enable = true;
     polarity = "dark";
