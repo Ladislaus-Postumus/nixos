@@ -29,6 +29,9 @@
     options = "grp:shifts_toggle";
   };
 
+  # keep ssd healthy?
+  services.fstrim.enable = true;
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 

@@ -5,6 +5,7 @@
     ./compositor/hyprland.nix
     ./etc/default_settings.nix
     ./etc/ai.nix
+    ./etc/disks.nix
     ./etc/font.nix
     ./etc/git.nix
     ./etc/grub.nix
