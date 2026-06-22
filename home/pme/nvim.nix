@@ -2,9 +2,8 @@
   inputs,
   pkgs,
   ...
-}:
-let
-  vimSpellDe = pkgs.runCommand "vim-spell-de" { } ''
+}: let
+  vimSpellDe = pkgs.runCommand "vim-spell-de" {} ''
     mkdir -p $out/share/vim/vimfiles/spell
     cp ${
       pkgs.fetchurl {
@@ -19,41 +18,27 @@ let
       }
     } $out/share/vim/vimfiles/spell/de.utf-8.sug
   '';
-in
-{
-
+in {
   imports = [
     inputs.nvf.homeManagerModules.default
   ];
+
   programs.nvf = {
     enable = true;
     settings.vim = {
+      viAlias = true;
+      vimAlias = true;
+      searchCase = "smart";
+      lazy.enable = true;
+      git.enable = true;
+      undoFile.enable = true;
+      telescope.enable = true;
+      treesitter.enable = true;
+
       clipboard = {
         enable = true;
         registers = "unnamed,unnamedplus";
       };
-      git.enable = true;
-      lazy.enable = true;
-      searchCase = "smart";
-      telescope.enable = true;
-      treesitter.enable = true;
-      undoFile.enable = true;
-      viAlias = true;
-      vimAlias = true;
-
-      luaConfigPost = ''
-        vim.o.foldcolumn = '1'
-        vim.o.foldlevel = 99
-        vim.o.foldlevelstart = 99
-        vim.o.foldenable = true
-
-        vim.o.shiftwidth=2
-        vim.o.softtabstop=2
-        vim.o.tabstop=2
-
-        vim.o.conceallevel=3
-        vim.o.concealcursor='nc'
-      '';
 
       spellcheck = {
         enable = true;
@@ -67,243 +52,169 @@ in
         "${vimSpellDe}/share/vim/vimfiles"
       ];
 
-      lsp = {
-        enable = true;
-        #lspSignature.enable = true;
-        lspkind.enable = true;
-        lspsaga.enable = true;
-        null-ls.enable = true;
-        trouble.enable = true;
+      statusline.lualine.enable = true;
+
+      ui = {
+        noice = {
+          enable = true;
+          setupOpts = {
+            lsp = {
+              hover.enabled = false;
+              signature.enabled = false;
+            };
+            presets = {
+              bottom_search = true;
+              command_palette = true;
+              long_message_to_split = true;
+            };
+          };
+        };
       };
+
+      luaConfigPost = ''
+        vim.o.colorcolumn = "120"
+        vim.o.conceallevel = 3
+        vim.o.concealcursor = 'nc'
+
+        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+          vim.lsp.handlers.hover, { border = "rounded" }
+        )
+        vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+          vim.lsp.handlers.signatureHelp, { border = "rounded" }
+        )
+
+        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+          callback = function()
+            vim.lsp.buf.document_highlight()
+          end,
+        })
+        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+          callback = function()
+            vim.lsp.buf.clear_references()
+          end,
+        })
+
+        local function smart_navigate(wincmd, tmux_direction)
+          local initial_win = vim.api.nvim_get_current_win()
+          vim.cmd("wincmd " .. wincmd)
+          if initial_win == vim.api.nvim_get_current_win() then
+            vim.fn.system("tmux select-pane -" .. tmux_direction)
+          end
+        end
+
+        vim.keymap.set("n", "<C-h>", function() smart_navigate("h", "L") end)
+        vim.keymap.set("n", "<C-j>", function() smart_navigate("j", "D") end)
+        vim.keymap.set("n", "<C-k>", function() smart_navigate("k", "U") end)
+        vim.keymap.set("n", "<C-l>", function() smart_navigate("l", "R") end)
+      '';
+
       languages = {
         enableDAP = true;
         enableExtraDiagnostics = true;
         enableFormat = true;
         enableTreesitter = true;
 
-        # lsp languages
         bash.enable = true;
         clang.enable = true;
         cmake.enable = true;
         json.enable = true;
+        markdown.enable = true;
         nix.enable = true;
-        qml.enable = true;
         rust.enable = true;
-        sql.dialect = "oracle";
-        sql.enable = true;
         toml.enable = true;
         yaml.enable = true;
       };
 
+      lsp = {
+        enable = true;
+        formatOnSave = true;
+        trouble.enable = true;
+      };
+
       diagnostics = {
         enable = true;
-        nvim-lint.enable = true;
       };
 
       formatter.conform-nvim.enable = true;
-      #debugger.nvim-dap.enable = false;
-
-      autocomplete.blink-cmp = {
-        enable = true;
-      };
-
-      visuals = {
-        indent-blankline.enable = true;
-        nvim-cursorline.enable = true;
-        nvim-web-devicons.enable = true;
-        rainbow-delimiters.enable = true;
-        tiny-devicons-auto-colors.enable = true;
-        fidget-nvim.enable = true; # progress/lsp-progress message handler
-        highlight-undo.enable = true;
-        cellular-automaton.enable = true;
-      };
-
-      binds.whichKey.enable = true;
-
-      utility = {
-        undotree.enable = true;
-        smart-splits.enable = true;
-        outline.aerial-nvim.enable = true;
-        yazi-nvim.enable = true;
-        yazi-nvim.setupOpts.open_for_directories = true;
-
-        #   motion.flash-nvim.enable = false;
-        # vim-wakatime.enable = true; # tracks time und loc TODO
-        mkdir.enable = true;
-        diffview-nvim.enable = true;
-        icon-picker.enable = true;
-        ccc.enable = true;
-      };
-
-      notes.neorg.enable = true;
-
-      ui = {
-        nvim-ufo.enable = true;
-        smartcolumn.enable = true;
-
-        noice = {
-          enable = true;
-          setupOpts = {
-            lsp = {
-              hover = {
-                enabled = true;
-                view = "popup";
-              };
-              signature = {
-                enabled = false;
-                auto_open.enable = false;
-                view = "popup";
-              };
-              documentation = {
-                enabled = true;
-                view = "popup";
-              };
-            };
-            views = {
-              popup = {
-                size = {
-                  max_width = 120;
-                  max_height = 40;
-                };
-              };
-            };
-            presets = {
-              lsp_doc_border = true;
-            };
-          };
-        };
-
-        fastaction.enable = true;
-        illuminate.enable = true;
-        breadcrumbs.enable = true;
-        colorful-menu-nvim.enable = true;
-        colorizer.enable = true;
-      };
-
-      notes = {
-        todo-comments = {
-          enable = true;
-          mappings.telescope = "<leader>tds";
-        };
-      };
-
-      # runner.run-nvim.enable = true; # runs code in editor; todo want that?
-
-      terminal.toggleterm.enable = true;
 
       snippets = {
         luasnip.enable = true;
       };
 
-      mini = {
-        ai.enable = true;
-        align.enable = true;
-        comment.enable = true;
-        #   cursorword.enable = true;
-        #   diff.enable = true;
-        #   doc.enable = false;
-        #   extra.enable = true;
-        #   git.enable = true;
-        #   hipatterns.enable = true;
-        #   hues.enable = false;
-        #   icons.enable = true;
-        #   notify.enable = true;
-        #   operators.enable = true;
-        #   pick.enable = true;
-        #   splitjoin.enable = true;
-        statusline.enable = true;
-        surround.enable = true;
-        tabline.enable = true;
-        #   test.enable = false;
-        #   trailspace.enable = true;
-        #   visits.enable = true;
-      };
-
-      assistant.codecompanion-nvim = {
+      autocomplete.nvim-cmp = {
         enable = true;
+        mappings = {
+          complete = "<C-Space>";
+          next = "<Tab>";
+          previous = "<S-Tab>";
+          confirm = "<CR>";
+        };
         setupOpts = {
-          # We use a string here that nvf will pass to Lua
-          # This tells CodeCompanion: "For the 'ollama' adapter, use the built-in 'ollama' definition"
-          # adapters.ollama = pkgs.lib.mkRaw ''
-          #   require("codecompanion.adapters").extend("ollama", {
-          #     schema = {
-          #       model = {
-          #         default = "qwen2.5-coder:7b",
-          #       },
-          #     },
-          #   })
-          # '';
-
-          strategies = {
-            chat = {
-              adapter = "ollama";
+          window = {
+            completion = {
+              border = "rounded";
             };
-            inline = {
-              enabled = false;
-            };
-          };
-
-          opts = {
-            adapter_options = {
-              ollama = {
-                model = "qwen2.5-coder:7b";
-              };
-            };
-            system_prompt = ''
-              You are an expert programming consultant.
-              NEVER provide code aimed at full file replacement.
-              Provide concise, highly logical snippets and explain the 'why'.
-              I prefer to type the code myself to ensure I understand it.
-            '';
-          };
-
-          display.chat = {
-            show_token_count = true;
-            window = {
-              layout = "vertical";
-              width = 0.35;
+            documentation = {
+              border = "rounded";
             };
           };
         };
       };
 
+      notes = {
+        todo-comments.enable = true;
+        neorg.enable = true;
+      };
+
+      utility = {
+        ccc.enable = true;
+        diffview-nvim.enable = true;
+        undotree.enable = true;
+        yazi-nvim.enable = true;
+        yazi-nvim.setupOpts.open_for_directories = true;
+      };
+
+      terminal.toggleterm.enable = true;
+
+      visuals = {
+        fidget-nvim.enable = true;
+        indent-blankline.enable = true;
+        nvim-web-devicons.enable = true;
+        rainbow-delimiters.enable = true;
+      };
+
+      mini = {
+        tabline.enable = true;
+        surround.enable = true;
+        comment.enable = true;
+        ai.enable = true;
+      };
+
+      binds.whichKey.enable = true;
+
       keymaps = [
         {
-          mode = "n";
+          mode = [
+            "n"
+            "i"
+          ];
           key = "<C-q>";
           action = "vim.lsp.buf.hover";
           lua = true;
           silent = true;
-        }
-        {
-          mode = "i";
-          key = "<C-q>";
-          action = "vim.lsp.buf.hover";
-          lua = true;
-          silent = true;
+          desc = "Hover Documentation";
         }
         {
           mode = "n";
-          key = "<leader>aaa";
-          action = ":CellularAutomaton game_of_life";
+          key = "<leader>xx";
+          action = "<cmd>Trouble diagnostics toggle<cr>";
+          desc = "Toggle Diagnostics (Trouble)";
         }
         {
-          key = "<leader>ac";
-          mode = [
-            "n"
-            "v"
-          ];
-          action = "<cmd>CodeCompanionChat Toggle<cr>";
-          desc = "AI Chat (Consultant Mode)";
-        }
-        {
-          key = "<leader>aa";
-          mode = [
-            "n"
-            "v"
-          ];
-          action = "<cmd>CodeCompanionActions<cr>";
-          desc = "AI Actions (Explain/LSP/etc)";
+          mode = "n";
+          key = "<leader>xt";
+          action = "<cmd>Trouble todo toggle<cr>";
+          desc = "Toggle TODOs (Trouble)";
         }
       ];
     };

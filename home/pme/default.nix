@@ -1,9 +1,12 @@
-{ pkgs, inputs, config, ... }:
-
 {
+  pkgs,
+  inputs,
+  config,
+  ...
+}: {
   home.stateVersion = "25.11";
 
-  imports = [ inputs.stylix.homeModules.stylix ./nvim.nix ];
+  imports = [inputs.stylix.homeModules.stylix ./nvim.nix ./tmux.nix];
 
   #programs.lutris.enable = true;
 

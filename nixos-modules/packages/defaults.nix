@@ -1,5 +1,8 @@
-{ pkgs, inputs, ... }:
 {
+  pkgs,
+  inputs,
+  ...
+}: {
   environment.systemPackages = with pkgs; [
     asciiquarium
     bat
@@ -64,8 +67,8 @@
     libnotify
     polkit_gnome
     xinit
-    (dmenu.overrideAttrs { src = inputs.dmenu-custom; })
-    (st.overrideAttrs { src = inputs.st-custom; })
+    (dmenu.overrideAttrs {src = inputs.dmenu-custom;})
+    (st.overrideAttrs {src = inputs.st-custom;})
 
     pamixer
     networkmanager
@@ -84,7 +87,7 @@
 
   services = {
     espanso.enable = true;
-    upower.enable=true;
+    upower.enable = true;
   };
 
   security.polkit.enable = true;
