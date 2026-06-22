@@ -150,7 +150,8 @@ in
                 view = "popup";
               };
               signature = {
-                enabled = true;
+                enabled = false;
+                auto_open.enable = false;
                 view = "popup";
               };
               documentation = {

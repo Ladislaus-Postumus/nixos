@@ -25,6 +25,20 @@
     pam_u2f
   ];
 
+  zramSwap = {
+    enable = true;
+    priority = 100; # High priority: Use compressed RAM first
+    memoryPercent = 50;
+  };
+
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 16 * 1024;
+      priority = 10; # Low priority: Only use when ZRAM is full
+    }
+  ];
+
   security.pam.services = {
     login.u2fAuth = true;
     sudo.u2fAuth = true;

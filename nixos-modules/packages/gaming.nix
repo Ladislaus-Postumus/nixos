@@ -18,6 +18,7 @@ in
       openmw
       pciutils
       prismlauncher
+      r2modman
     ];
 
     programs.steam = {
@@ -27,8 +28,12 @@ in
       localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
     };
     programs.gamescope.enable = true;
+    programs.gamemode.enable = true;
 
-    boot.kernelParams = [ "amdgpu.ppfeaturemask=0xffffffff" ];
+    boot.kernelParams = [
+      "amdgpu.ppfeaturemask=0xffffffff"
+      "amdgpu.gfxoff=0"
+    ];
     programs.corectrl.enable = true;
   };
 }

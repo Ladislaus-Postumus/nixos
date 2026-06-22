@@ -34,6 +34,8 @@
     procps
     # killall
     psmisc
+    newsboat
+    proton-vpn
 
     nitrokey-app2
     fido2-manage
