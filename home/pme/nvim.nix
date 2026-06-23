@@ -34,6 +34,7 @@ in {
       undoFile.enable = true;
       telescope.enable = true;
       treesitter.enable = true;
+      treesitter.context.enable = true;
 
       clipboard = {
         enable = true;
@@ -68,6 +69,10 @@ in {
               long_message_to_split = true;
             };
           };
+        };
+        breadcrumbs = {
+          enable = true;
+          navbuddy.enable = true;
         };
       };
 
@@ -174,7 +179,10 @@ in {
         yazi-nvim.setupOpts.open_for_directories = true;
       };
 
-      terminal.toggleterm.enable = true;
+      terminal.toggleterm = {
+        enable = true;
+        lazygit.enable = true;
+      };
 
       visuals = {
         fidget-nvim.enable = true;

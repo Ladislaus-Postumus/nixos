@@ -8,9 +8,10 @@
 
   imports = [
     inputs.stylix.homeModules.stylix
-    ./nvim.nix
-    ./tmux.nix
     ./direnv.nix
+    ./nvim.nix
+    ./scripts.nix
+    ./tmux.nix
   ];
 
   #programs.lutris.enable = true;

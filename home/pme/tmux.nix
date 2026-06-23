@@ -45,4 +45,8 @@
       set -g renumber-windows on
     '';
   };
+
+  home.packages = [
+    (pkgs.writeScriptBin "tmx" (builtins.readFile ./scripts/tmx.sh))
+  ];
 }
