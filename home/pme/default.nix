@@ -6,7 +6,12 @@
 }: {
   home.stateVersion = "25.11";
 
-  imports = [inputs.stylix.homeModules.stylix ./nvim.nix ./tmux.nix];
+  imports = [
+    inputs.stylix.homeModules.stylix
+    ./nvim.nix
+    ./tmux.nix
+    ./direnv.nix
+  ];
 
   #programs.lutris.enable = true;
 
