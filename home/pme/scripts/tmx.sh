@@ -28,6 +28,6 @@ elif [ -d "$TARGET_DIR/.git" ]; then
   tmux send-keys -t "$SESSION_NAME:1.1" "git status" C-m
 fi
 
-tmux select-pane -t "$SESSION_NAME:1.0"
+tmux select-pane -t "$SESSION_NAME:1.1"
 
 tmux attach-session -t "$SESSION_NAME"

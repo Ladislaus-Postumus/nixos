@@ -15,11 +15,17 @@
     ];
 
     extraConfig = ''
-      set -as terminal-features ",xterm-256color:RGB"
-      set -as terminal-features ",xterm-256color:Styling"
+      set -as terminal-features ",*:RGB"
+      set -as terminal-features ",*:Styling"
+      set -as terminal-overrides ",*:Tc"
       set -g default-command "bash"
 
-      is_vim="ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
+      bind-key -T copy-mode-vi v send-keys -X begin-selection
+      bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
+      bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -sel clip -i"
+      bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "xclip -sel clip -i"
+
+      is_vim="ps -t '#{pane_tty}' | grep -iq nvim"
       bind-key -n 'C-h' if-shell "$is_vim" 'send-keys C-h' 'select-pane -L'
       bind-key -n 'C-j' if-shell "$is_vim" 'send-keys C-j' 'select-pane -D'
       bind-key -n 'C-k' if-shell "$is_vim" 'send-keys C-k' 'select-pane -U'

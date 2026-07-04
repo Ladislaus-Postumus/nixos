@@ -1,7 +1,6 @@
-{ ... }:
-{
-  networking.firewall.allowedTCPPorts = [ 21 ];
-
+{...}: {
+  networking.firewall.allowedTCPPorts = [21];
+  security.pam.services.vsftpd.enable = true;
   services.vsftpd = {
     enable = true;
     localRoot = "/srv/ftp/scanner/";
@@ -14,6 +13,8 @@
       listen_ipv6=NO
 
       local_umask=027
+
+      check_shell=NO
     '';
   };
 

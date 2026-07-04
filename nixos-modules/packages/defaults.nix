@@ -83,6 +83,8 @@
     just
     maim
     rsync
+    disktui
+    jujutsu
   ];
 
   services = {
