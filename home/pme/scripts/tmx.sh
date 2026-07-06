@@ -24,8 +24,8 @@ tmux resize-pane -t "$SESSION_NAME:1.1" -x "80%"
 
 if [ -f "$TARGET_DIR/Cargo.toml" ]; then
   tmux send-keys -t "$SESSION_NAME:1.1" "cargo watch -x run" C-m
-elif [ -d "$TARGET_DIR/.git" ]; then
-  tmux send-keys -t "$SESSION_NAME:1.1" "git status" C-m
+# elif [ -d "$TARGET_DIR/.git" ]; then
+#   tmux send-keys -t "$SESSION_NAME:1.1" "git status" C-m
 fi
 
 tmux select-pane -t "$SESSION_NAME:1.1"

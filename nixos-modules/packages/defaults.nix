@@ -85,6 +85,7 @@
     rsync
     disktui
     jujutsu
+    entr
   ];
 
   services = {
