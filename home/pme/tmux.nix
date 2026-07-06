@@ -14,7 +14,13 @@
       yank
     ];
 
-    extraConfig = ''
+    extraConfig = let
+      # Extract semantic color tokens from your current active Stylix scheme
+      bg = "#${config.lib.stylix.colors.base00}"; # Default background
+      statusBg = "#${config.lib.stylix.colors.base01}"; # Slightly lighter block
+      fg = "#${config.lib.stylix.colors.base05}"; # Default text
+      accent = "#${config.lib.stylix.colors.base0D}"; # Usually Blue (matches your dwm bar)
+    in ''
       set -as terminal-features ",*:RGB"
       set -as terminal-features ",*:Styling"
       set -as terminal-overrides ",*:Tc"
@@ -40,11 +46,18 @@
       set -g status-right-length 80
       set -g status-justify left
 
-      set -g status-left " 󰄛 #S │ "
-      set -g status-right "󱫋 %H:%M │ %d-%b-%y "
+      # Apply the global status line colors dynamically
+      set -g status-style "bg=${statusBg},fg=${fg}"
 
-      set -g window-status-format " #I:#W "
-      set -g window-status-current-format " #[bold]#I:#W* "
+      # Powerline left section structure
+      set -g status-left "#[fg=${bg},bg=${accent},bold] 󰄛 #S #[fg=${accent},bg=${statusBg},nobold]"
+
+      # Powerline window tabs layout
+      set -g window-status-current-format "#[fg=${statusBg},bg=${accent}]#[fg=${bg},bg=${accent},bold] #I:#W #[fg=${accent},bg=${statusBg},nobold]"
+      set -g window-status-format "#[fg=${fg},bg=${statusBg}]  #I:#W  "
+
+      # Powerline right section structure matching your date formatting
+      set -g status-right "#[fg=${accent},bg=${statusBg}]#[fg=${bg},bg=${accent}] 󱫋 %H:%M #[fg=${bg},bg=${accent}]│ %d-%b-%y "
 
       setw -g monitor-activity on
       set -g visual-activity off

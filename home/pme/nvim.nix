@@ -111,6 +111,31 @@ in {
         vim.keymap.set("n", "<C-j>", function() smart_navigate("j", "D") end)
         vim.keymap.set("n", "<C-k>", function() smart_navigate("k", "U") end)
         vim.keymap.set("n", "<C-l>", function() smart_navigate("l", "R") end)
+
+        require('lualine').setup({
+          options = {
+            -- Your structural chevron rules
+            section_separators = { left = "", right = "" },
+            component_separators = { left = "", right = "" },
+            disabled_filetypes = {
+              statusline = { "NvimTree", "TelescopePrompt" },
+            },
+          },
+
+          sections = {
+            lualine_a = { "mode" },
+            lualine_b = { "branch", "diff", "diagnostics" },
+            lualine_c = { "filename" },
+            lualine_x = { "encoding", "fileformat", "filetype" },
+            lualine_y = { "progress" },
+            lualine_z = { "location" },
+          },
+
+          tabline = {
+            lualine_a = { { 'buffers', mode = 4 } },
+            lualine_z = { { 'tabs', mode = 2 } },
+          },
+        })
       '';
 
       languages = {
@@ -192,7 +217,6 @@ in {
       };
 
       mini = {
-        tabline.enable = true;
         surround.enable = true;
         comment.enable = true;
         ai.enable = true;
