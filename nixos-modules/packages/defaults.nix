@@ -86,6 +86,8 @@
     disktui
     jujutsu
     entr
+
+    wakapi
   ];
 
   services = {
