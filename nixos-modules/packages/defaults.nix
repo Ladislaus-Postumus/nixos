@@ -88,6 +88,7 @@
     entr
 
     wakapi
+    wakatime-cli
   ];
 
   services = {
