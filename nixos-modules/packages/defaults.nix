@@ -89,6 +89,10 @@
 
     wakapi
     wakatime-cli
+
+    bitwarden-cli
+    bitwarden-menu
+    bitwarden-desktop
   ];
 
   services = {
