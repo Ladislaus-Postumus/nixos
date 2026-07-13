@@ -92,7 +92,7 @@
 
     bitwarden-cli
     bitwarden-menu
-    bitwarden-desktop
+    #bitwarden-desktop
   ];
 
   services = {
