@@ -3,8 +3,7 @@
   config,
   inputs,
   ...
-}:
-{
+}: {
   my.features.dwm.enable = true;
   my.features.gnome.enable = false;
   my.features.hyprland.enable = false;
@@ -52,7 +51,7 @@
 
   system.autoUpgrade = {
     enable = true;
-    flake = "/home/pme/nix-config/";
+    flake = "/home/pme/projects/nixos/";
     operation = "boot";
     dates = "daily";
   };
