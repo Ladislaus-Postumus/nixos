@@ -94,6 +94,7 @@
     bitwarden-menu
     #bitwarden-desktop
   ];
+  programs.zsh.enable = true;
 
   services = {
     espanso.enable = true;

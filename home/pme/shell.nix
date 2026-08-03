@@ -25,6 +25,9 @@
     };
 
     initContent = ''
+      alias -g G='| rg -i'
+      alias -g C='| xclip -sel clip'
+
       # 1. Interactive Grid Menu & Case-Insensitive Completion
       zstyle ':completion:*' menu select
       zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
@@ -64,6 +67,10 @@
   programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
+    options = [
+      "--cmd"
+      "cd"
+    ];
   };
 
   programs.fzf = {

@@ -1,8 +1,8 @@
-{ ... }:
-{
+{pkgs, ...}: {
   users.users.pme = {
     isNormalUser = true;
     description = "Philipp Melzer";
+    shell = pkgs.zsh;
     extraGroups = [
       "networkmanager"
       "wheel"
@@ -22,7 +22,7 @@
   users.users.guest = {
     isNormalUser = true;
     description = "Guest";
-    extraGroups = [ ];
+    extraGroups = [];
   };
 
   systemd.tmpfiles.rules = [
@@ -49,10 +49,10 @@
     createHome = false;
     home = "/srv/ftp/scanner";
     group = "ftpusers";
-    extraGroups = [ "paperless" ];
+    extraGroups = ["paperless"];
   };
 
-  users.groups.plugdev = { };
-  users.groups.docker = { };
-  users.groups.ftpusers = { };
+  users.groups.plugdev = {};
+  users.groups.docker = {};
+  users.groups.ftpusers = {};
 }
