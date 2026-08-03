@@ -4,42 +4,39 @@
   lib,
   inputs,
   ...
-}:
-let
+}: let
   inherit (lib) mkEnableOption mkIf;
-in
-{
+in {
   options.my.features.dwm.enable = mkEnableOption "enable dwm window manager";
   config = mkIf config.my.features.dwm.enable {
-    services.xserver.enable = true;
-    services.xserver.displayManager.startx.enable = true;
-    services.xserver.windowManager.dwm = {
-      enable = true;
-      package = pkgs.stdenv.mkDerivation {
-        pname = "dwm";
-        version = "custom";
-        src = inputs.dwm-custom;
-        buildInputs = with pkgs; [
-          libx11
-          libxft
-          libxinerama
-        ];
-        buildPhase = "make";
-        installPhase = "make PREFIX=$out install";
-      };
-    };
-
-    environment.systemPackages = with pkgs; [
-      (pkgs.dwmblocks.overrideAttrs (old: {
-        postPatch = (old.postPatch or "") + ''
-          cp ${./blocks.h} blocks.def.h
-          substituteInPlace dwmblocks.c \
-            --replace "void termhandler()" "void termhandler(int signum)"
-        '';
-      }))
+    nixpkgs.overlays = [
+      (final: prev: {
+        dwm = prev.dwm.overrideAttrs (_: {
+          src = inputs.dwm-custom;
+        });
+        dwmblocks = prev.dwmblocks.overrideAttrs (_: {
+          src = inputs.dwmblocks-custom;
+        });
+        dmenu = prev.dmenu.overrideAttrs (_: {
+          src = inputs.dmenu-custom;
+        });
+        st = prev.st.overrideAttrs (_: {
+          src = inputs.st-custom;
+        });
+      })
     ];
 
-    services.xserver.videoDrivers = [ "amdgpu" ];
+    services.xserver.enable = true;
+    services.xserver.displayManager.startx.enable = true;
+    services.xserver.windowManager.dwm.enable = true;
+
+    environment.systemPackages = [
+      pkgs.dwmblocks
+      pkgs.dmenu
+      pkgs.st
+    ];
+
+    services.xserver.videoDrivers = ["amdgpu"];
     services.libinput.enable = true;
 
     programs.dconf.enable = true;

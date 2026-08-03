@@ -100,6 +100,22 @@
         "type": "github"
       }
     },
+    "dwmblocks-custom": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1786010700,
+        "narHash": "sha256-bIaM/dL+ATw0OypoucsuoNuQh3DgxljH2URXaKfBmSs=",
+        "owner": "Ladislaus-Postumus",
+        "repo": "dwmblocks-custom",
+        "rev": "1a721a9ca583d82b32c4feef713580d1fac87b79",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Ladislaus-Postumus",
+        "repo": "dwmblocks-custom",
+        "type": "github"
+      }
+    },
     "ez-configs": {
       "inputs": {
         "flake-parts": [
@@ -411,6 +427,7 @@
       "inputs": {
         "dmenu-custom": "dmenu-custom",
         "dwm-custom": "dwm-custom",
+        "dwmblocks-custom": "dwmblocks-custom",
         "ez-configs": "ez-configs",
         "flake-parts": "flake-parts",
         "home-manager": "home-manager",

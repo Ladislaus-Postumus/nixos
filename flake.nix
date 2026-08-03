@@ -22,6 +22,10 @@
       url = "github:Ladislaus-Postumus/dwm-custom";
       flake = false;
     };
+    dwmblocks-custom = {
+      url = "github:Ladislaus-Postumus/dwmblocks-custom";
+      flake = false;
+    };
     st-custom = {
       url = "github:Ladislaus-Postumus/st-custom";
       flake = false;
@@ -32,26 +36,26 @@
     };
   };
 
-  outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      flake-parts,
-      ez-configs,
-      nvf,
-      home-manager,
-      stylix,
-      dwm-custom,
-      st-custom,
-      dmenu-custom,
-      ...
-    }:
-    flake-parts.lib.mkFlake { inherit inputs; } {
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    flake-parts,
+    ez-configs,
+    nvf,
+    home-manager,
+    stylix,
+    dwm-custom,
+    dwmblocks-custom,
+    st-custom,
+    dmenu-custom,
+    ...
+  }:
+    flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
         ez-configs.flakeModule
       ];
       ezConfigs.root = ./.;
-      ezConfigs.globalArgs = { inherit inputs; };
-      systems = [ "x86_64-linux" ];
+      ezConfigs.globalArgs = {inherit inputs;};
+      systems = ["x86_64-linux"];
     };
 }
