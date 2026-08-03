@@ -21,25 +21,25 @@
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/27ee0bdc-2c23-4da3-8e2a-1d185358fe8a";
     fsType = "btrfs";
-    options = ["subvol=@root" "compress=zstd" "noatime"];
+    options = ["subvol=@root" "compress=zstd" "noatime" "discard=async"];
   };
 
   fileSystems."/home" = {
     device = "/dev/disk/by-uuid/27ee0bdc-2c23-4da3-8e2a-1d185358fe8a";
     fsType = "btrfs";
-    options = ["subvol=@home" "compress=zstd" "notime"];
+    options = ["subvol=@home" "compress=zstd" "noatime" "discard=async"];
   };
 
   fileSystems."/nix" = {
     device = "/dev/disk/by-uuid/27ee0bdc-2c23-4da3-8e2a-1d185358fe8a";
     fsType = "btrfs";
-    options = ["subvol=@nix" "compress=zstd" "noatime"];
+    options = ["subvol=@nix" "compress=zstd" "noatime" "discard=async"];
   };
 
   fileSystems."/home/pme/Games" = {
     device = "/dev/disk/by-uuid/27ee0bdc-2c23-4da3-8e2a-1d185358fe8a";
     fsType = "btrfs";
-    options = ["subvol=@games" "compress=zstd" "noatime"];
+    options = ["subvol=@games" "compress=zstd" "noatime" "discard=async"];
   };
 
   fileSystems."/boot" = {

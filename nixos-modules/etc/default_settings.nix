@@ -1,5 +1,8 @@
 {...}: {
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -29,15 +32,12 @@
     options = "grp:shifts_toggle";
   };
 
-  # keep ssd healthy?
-  services.fstrim.enable = true;
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   programs.ssh.extraConfig = ''
-Host github.com
-  IdentityFile ~/.ssh/id_ed25519_sk
-  IdentitiesOnly yes
-    '';
+    Host github.com
+      IdentityFile ~/.ssh/id_ed25519_sk
+      IdentitiesOnly yes
+  '';
 }

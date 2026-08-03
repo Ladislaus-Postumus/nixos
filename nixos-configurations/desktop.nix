@@ -20,6 +20,9 @@
   system.stateVersion = "24.11";
 
   virtualisation.docker.enable = true;
+  virtualisation.docker.enableOnBoot = false;
+  systemd.services.NetworkManager-wait-online.enable = false;
+
   environment.systemPackages = with pkgs; [
     pam_u2f
   ];
@@ -55,4 +58,5 @@
     operation = "boot";
     dates = "daily";
   };
+  systemd.services.nixos-upgrade.environment.NIXOS_LABEL = "auto-upgrade";
 }
