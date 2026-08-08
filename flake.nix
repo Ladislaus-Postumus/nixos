@@ -17,6 +17,7 @@
     nvf.url = "github:notashelf/nvf";
 
     stylix.url = "github:danth/stylix";
+    flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
 
     dwm-custom = {
       url = "github:Ladislaus-Postumus/dwm-custom";
@@ -48,6 +49,7 @@
     dwmblocks-custom,
     st-custom,
     dmenu-custom,
+    flatpak,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {

@@ -17,6 +17,7 @@
     ./packages/astro.nix
     ./packages/defaults.nix
     ./packages/gaming.nix
+    ./packages/flatpak.nix
 
     ./etc/ftp.nix
     ./etc/paperless.nix
