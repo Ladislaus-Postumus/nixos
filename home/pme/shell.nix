@@ -27,6 +27,15 @@
     initContent = ''
       alias -g G='| rg -i'
       alias -g C='| xclip -sel clip'
+      alias -g E='2>&1'
+
+      cf() {
+        local filename="''${1:-attachment.txt}"
+        local filepath="/dev/shm/$filename"
+
+        cat > "$filepath"
+        printf "file://%s\r\n" "$filepath" | xclip -selection clipboard -t text/uri-list
+      }
 
       # 1. Interactive Grid Menu & Case-Insensitive Completion
       zstyle ':completion:*' menu select
