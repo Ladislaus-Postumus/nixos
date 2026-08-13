@@ -4,16 +4,16 @@
   inputs,
   ...
 }: {
+  my.users.pme.enable = true;
+  my.users.tech.enable = true;
   my.features.dwm.enable = true;
-  my.features.gnome.enable = false;
-  my.features.hyprland.enable = false;
 
   my.features.astro.enable = true;
   my.features.gaming.enable = true;
   my.features.keyboard.enable = true;
 
   imports = [
-    ./desktop-hardware.nix
+    ./hardware.nix
     inputs.stylix.nixosModules.stylix
   ];
   networking.hostName = "desktop";
