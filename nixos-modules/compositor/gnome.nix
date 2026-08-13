@@ -20,5 +20,20 @@ in {
       gnome-user-docs
     ];
     services.libinput.enable = true;
+
+    programs.dconf = {
+      enable = true;
+      profiles.user.databases = [
+        {
+          settings = {
+            "org/gnome/desktop/input-sources" = {
+              sources = [
+                (lib.gvariant.mkTuple ["xkb" "de"])
+              ];
+            };
+          };
+        }
+      ];
+    };
   };
 }

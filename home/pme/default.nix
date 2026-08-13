@@ -1,7 +1,6 @@
 {
   pkgs,
   inputs,
-  config,
   ...
 }: {
   home.stateVersion = "25.11";
@@ -13,11 +12,14 @@
     ./scripts.nix
     ./shell.nix
     ./tmux.nix
+    ./git.nix
   ];
 
-  #programs.lutris.enable = true;
+  home.language = {
+    base = "de_DE.UTF-8";
+    messages = "en_GB.UTF-8";
+  };
 
-  #gtk.gtk4.theme = config.gtk.theme;
   stylix = {
     enable = true;
     polarity = "dark";

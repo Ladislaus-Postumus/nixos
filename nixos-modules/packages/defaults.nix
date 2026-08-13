@@ -82,7 +82,6 @@
     maim
     rsync
     disktui
-    jujutsu
     entr
 
     wakapi

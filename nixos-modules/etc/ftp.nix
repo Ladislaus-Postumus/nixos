@@ -1,27 +1,36 @@
-{...}: {
-  networking.firewall.allowedTCPPorts = [21];
-  security.pam.services.vsftpd.enable = true;
-  services.vsftpd = {
-    enable = true;
-    localRoot = "/srv/ftp/scanner/";
-    writeEnable = true;
-    chrootlocalUser = true;
-    allowWriteableChroot = true;
-    localUsers = true;
-    extraConfig = ''
-      listen=YES
-      listen_ipv6=NO
+{
+  lib,
+  config,
+  ...
+}: let
+  inherit (lib) mkEnableOption mkIf;
+in {
+  options.my.features.ftp.enable = mkEnableOption "unlock tcp port 21 for ftp";
+  config = mkIf config.my.features.ftp.enable {
+    networking.firewall.allowedTCPPorts = [21];
+    security.pam.services.vsftpd.enable = true;
+    services.vsftpd = {
+      enable = true;
+      localRoot = "/srv/ftp/scanner/";
+      writeEnable = true;
+      chrootlocalUser = true;
+      allowWriteableChroot = true;
+      localUsers = true;
+      extraConfig = ''
+        listen=YES
+        listen_ipv6=NO
 
-      local_umask=027
+        local_umask=027
 
-      check_shell=NO
-    '';
+        check_shell=NO
+      '';
+    };
+
+    systemd.tmpfiles.rules = [
+      "d /srv 0755 root root - -"
+      "d /srv/ftp 0755 root ftpusers - -"
+      "d /srv/ftp/scanner 2755 scanner ftpusers - -"
+      "d /srv/ftp/scanner/input 2775 paperless paperless - -"
+    ];
   };
-
-  systemd.tmpfiles.rules = [
-    "d /srv 0755 root root - -"
-    "d /srv/ftp 0755 root ftpusers - -"
-    "d /srv/ftp/scanner 2755 scanner ftpusers - -"
-    "d /srv/ftp/scanner/input 2775 paperless paperless - -"
-  ];
 }

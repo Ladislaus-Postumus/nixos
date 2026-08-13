@@ -7,7 +7,7 @@
     ./etc/disks.nix
     ./etc/font.nix
     ./etc/ftp.nix
-    ./etc/git.nix
+    #./etc/git.nix
     ./etc/grub.nix
     ./etc/home.nix
     ./etc/keyboard.nix
@@ -17,7 +17,7 @@
 
     ./packages/astro.nix
     ./packages/defaults.nix
-    ./packages/flatpak.nix
+    #./packages/flatpak.nix
     ./packages/gaming.nix
 
     ./users/groups.nix
