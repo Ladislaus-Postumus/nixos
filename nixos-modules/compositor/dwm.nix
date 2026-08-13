@@ -36,7 +36,6 @@ in {
       pkgs.st
     ];
 
-    services.xserver.videoDrivers = ["amdgpu"];
     services.libinput.enable = true;
 
     programs.dconf.enable = true;

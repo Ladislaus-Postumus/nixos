@@ -18,10 +18,11 @@
   ];
   networking.hostName = "desktop";
   system.stateVersion = "24.11";
+  services.xserver.videoDrivers = ["amdgpu"];
 
-  virtualisation.docker.enable = true;
-  virtualisation.docker.enableOnBoot = false;
-  systemd.services.NetworkManager-wait-online.enable = false;
+  #virtualisation.docker.enable = true;
+  #virtualisation.docker.enableOnBoot = false;
+  #systemd.services.NetworkManager-wait-online.enable = false;
 
   environment.systemPackages = with pkgs; [
     pam_u2f

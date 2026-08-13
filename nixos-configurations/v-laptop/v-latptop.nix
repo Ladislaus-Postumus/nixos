@@ -1,14 +1,10 @@
-{
-  pkgs,
-  config,
-  inputs,
-  ...
-}: {
+{inputs, ...}: {
   my.features.gnome.enable = true;
+  my.users.victor.enable = true;
   my.features.gaming.enable = true;
 
   imports = [
-    ./desktop-hardware.nix
+    ./hardware.nix
     inputs.stylix.nixosModules.stylix
   ];
   networking.hostName = "v-latptop";
