@@ -18,23 +18,70 @@
     };
 
     shellAliases = {
-      ls = "eza --icons=always -1 --colour=always";
-      ll = "eza --icons=always -1 --colour=always --tree -lgh";
+      ls = "eza --icons=auto -1 --colour=auto";
+      ll = "eza --icons=auto -1 --colour=auto -lgh";
+      lt = "eza --icons=auto -1 --colour=auto --tree -lgh";
       nos = "nh os switch";
       not = "nh os test";
+      nob = "nh os build";
+      hl = "rg --passthrough";
     };
 
     initContent = ''
-      alias -g G='| rg -i'
       alias -g C='| xclip -sel clip'
       alias -g E='2>&1'
 
-      cf() {
+      ### Error redirect abbreviation
+      function _abbrev_redirect() {
+        case "$LBUFFER" in
+          *" 2null")
+            LBUFFER="''${LBUFFER%2null}2>/dev/null"
+            ;;
+          *" 2clip")
+            LBUFFER="''${LBUFFER%2clip}2>&1 | xclip -sel clip"
+            ;;
+        esac;
+        zle self-insert
+      }
+      zle -N _abbrev_redirect
+      bindkey ' ' _abbrev_redirect
+
+      ### Copy to file shortcut `alt+f`
+      function _append_c2f() {
+        BUFFER="$BUFFER | c2f"
+        CURSOR=$#BUFFER
+      }
+      zle -N _append_c2f
+      bindkey '^[f' _append_c2f
+
+      ### Copy git repo to file shortcut `alt+F`
+      function _append_g2f() {
+        BUFFER="g2f"
+      }
+      zle -N _append_g2f
+      bindkey '^[F' _append_g2f
+
+      c2f() {
         local filename="''${1:-attachment.txt}"
         local filepath="/dev/shm/$filename"
 
         cat > "$filepath"
         printf "file://%s\r\n" "$filepath" | xclip -selection clipboard -t text/uri-list
+      }
+
+      g2f() {
+        git ls-files | xargs -n1 sh -c 'echo "FILEMARKER $1"; cat "$1"' _ | \
+        awk '
+        /^FILEMARKER/ {
+            if (in_file) print "```\n"   # Close previous file block if open
+            sub(/^FILEMARKER/, "")
+            print "# " $0 "\n```"
+            in_file = 1
+            next
+        }
+        { print }
+        END { if (in_file) print "```" }
+        '
       }
 
       # 1. Interactive Grid Menu & Case-Insensitive Completion
