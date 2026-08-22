@@ -91,6 +91,8 @@
     bitwarden-cli
     bitwarden-menu
     #bitwarden-desktop
+    p7zip
+    rar
   ];
   programs.zsh.enable = true;
 

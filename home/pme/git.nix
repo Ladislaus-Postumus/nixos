@@ -13,7 +13,6 @@
         name = "Philipp Melzer";
         email = "philipp.melzer00@proton.me";
       };
-
       alias = {
         l = "log --oneline --author=\"Philipp Melzer\"";
       };
