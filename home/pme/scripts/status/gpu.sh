@@ -5,22 +5,17 @@ COL_WARN=$(xrdb -query | grep 'color3:' | awk '{print $2}')
 COL_CRIT=$(xrdb -query | grep 'color1:' | awk '{print $2}')
 COL_NONE=$(xrdb -query | grep 'color0:' | awk '{print $2}')
 
-gpu_path="/sys/class/drm/card1/device/gpu_busy_percent"
-if [[ -f "$gpu_path" ]]; then
-  gpu_usage=$(cat "$gpu_path" | tr -d '\0')
-else
-  gpu_usage=0
-fi
+gpu_usage=$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits)
 
 # --- Helper Function for Coloring ---
 # Syntax: get_icon [value] [icon_low] [icon_high]
 get_status() {
   local val=$1
-  if (( val > 85 )); then
+  if ((val > 85)); then
     echo "^b$COL_CRIT^^c$COL_NONE^"
-  elif (( val > 70 )); then
+  elif ((val > 70)); then
     echo "^b$COL_WARN^^c$COL_NONE^"
-  elif (( val > 50 )); then
+  elif ((val > 50)); then
     echo "^b$COL_GOOD^^c$COL_NONE^"
   else
     echo "^d^"

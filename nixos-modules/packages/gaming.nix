@@ -3,11 +3,9 @@
   lib,
   config,
   ...
-}:
-let
+}: let
   inherit (lib) mkEnableOption mkIf;
-in
-{
+in {
   options.my.features.gaming.enable = mkEnableOption "apps for gaming";
 
   config = mkIf config.my.features.gaming.enable {
@@ -30,10 +28,6 @@ in
     programs.gamescope.enable = true;
     programs.gamemode.enable = true;
 
-    boot.kernelParams = [
-      "amdgpu.ppfeaturemask=0xffffffff"
-      "amdgpu.gfxoff=0"
-    ];
     programs.corectrl.enable = true;
   };
 }

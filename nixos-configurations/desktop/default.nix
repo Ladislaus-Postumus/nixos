@@ -20,7 +20,19 @@
   ];
   networking.hostName = "desktop";
   system.stateVersion = "24.11";
-  services.xserver.videoDrivers = ["amdgpu"];
+  services.xserver.videoDrivers = ["nvidia"];
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
+
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    nvidiaSettings = true;
+    open = false;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
 
   #virtualisation.docker.enable = true;
   #virtualisation.docker.enableOnBoot = false;
