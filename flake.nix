@@ -17,7 +17,16 @@
     nvf.url = "github:notashelf/nvf";
 
     stylix.url = "github:danth/stylix";
-    flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
+
+    # privacy settings preset for firefox
+    arkenfox = {
+      url = "github:dwarfmaster/arkenfox-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     dwm-custom = {
       url = "github:Ladislaus-Postumus/dwm-custom";
@@ -49,7 +58,6 @@
     dwmblocks-custom,
     st-custom,
     dmenu-custom,
-    flatpak,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {

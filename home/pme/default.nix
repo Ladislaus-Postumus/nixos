@@ -8,11 +8,12 @@
   imports = [
     inputs.stylix.homeModules.stylix
     ./direnv.nix
+    ./firefox.nix
+    ./git.nix
     ./nvim.nix
     ./scripts.nix
     ./shell.nix
     ./tmux.nix
-    ./git.nix
   ];
 
   home.language = {
@@ -25,6 +26,7 @@
     polarity = "dark";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
     targets.xresources.enable = true;
+    targets.firefox.profileNames = ["default"];
     fonts = {
       monospace = {
         package = pkgs.jetbrains-mono;
