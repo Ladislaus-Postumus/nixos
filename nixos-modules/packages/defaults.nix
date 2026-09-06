@@ -93,6 +93,8 @@
     #bitwarden-desktop
     p7zip
     rar
+
+    godot
   ];
   programs.zsh.enable = true;
 

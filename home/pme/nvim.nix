@@ -255,6 +255,14 @@ in {
           desc = "Toggle TODOs (Trouble)";
         }
       ];
+
+      luaConfigRC.gdscript-lsp = ''
+        vim.lsp.config('gdscript', {
+          cmd = vim.lsp.rpc.connect('127.0.0.1', 6005),
+          root_markers = { 'project.godot', '.git' },
+        })
+        vim.lsp.enable('gdscript')
+      '';
     };
   };
 }
