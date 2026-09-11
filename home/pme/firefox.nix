@@ -21,18 +21,26 @@
         ExpireAtSessionEnd = true;
         Allow = [
           "https://proton.me"
+          "https://mail.proton.me"
+          "https://xing.com"
 
+          "https://cinejoy.pk"
           "https://youtube.com"
-          "https://netflix.com"
           "https://bbc.co.uk"
-          "https://disneyplus.com"
           "https://amazon.de"
-          "https://primevideo.de"
           "https://twitch.tv"
           "https://streamwithvpn.com"
+          "https://crunchyroll.com"
 
+          "https://claude.com"
+          "https://claude.ai"
+          "https://chagtpt.com"
           "https://gemini.google.com"
           "https://github.com"
+          "https://bitwarden.com"
+
+          "https://boardgamearena.com"
+          "https://boardgamegeek.com"
         ];
       };
     };
@@ -94,7 +102,19 @@
           }
           {
             name = "NVF Options";
-            urls = "https://nvf.notashelf.dev/search.html";
+            url = "https://nvf.notashelf.dev/search.html";
+          }
+          {
+            name = "Nerd Fonts/Icons";
+            url = "https://www.nerdfonts.com/cheat-sheet";
+          }
+          {
+            name = "BGA";
+            url = "https://boardgamearena.com";
+          }
+          {
+            name = "BGG";
+            url = "https://boardgamegeek.com";
           }
         ];
       };

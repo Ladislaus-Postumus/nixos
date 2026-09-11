@@ -15,10 +15,10 @@
         ];
         tabs = [
           {
-            entries = [{url = "https://duckduckgo.com";}];
+            entries = [{url = "https://xing.com";}];
           }
           {
-            entries = [{url = "https://proton.me";}];
+            entries = [{url = "https://mail.proton.me";}];
             pinned = true;
           }
 
@@ -27,7 +27,7 @@
             groupId = "stream";
           }
           {
-            entries = [{url = "https://netflix.com";}];
+            entries = [{url = "https://fmhy.net/video";}];
             groupId = "stream";
           }
           {
@@ -35,15 +35,7 @@
             groupId = "stream";
           }
           {
-            entries = [{url = "https://disneyplus.com";}];
-            groupId = "stream";
-          }
-          {
-            entries = [{url = "https://amazon.de/-/en/gp/video/storefront";}];
-            groupId = "stream";
-          }
-          {
-            entries = [{url = "https://streamwithvpn.com";}];
+            entries = [{url = "https://twitch.tv";}];
             groupId = "stream";
           }
           #{
@@ -51,7 +43,7 @@
           #  pinned = false;
           #}
         ];
-        selected = 1;
+        selected = 3;
       }
 
       {
@@ -62,10 +54,25 @@
             color = "blue";
             collapsed = true;
           }
+          {
+            id = "ai";
+            name = "ai";
+            color = "purple";
+            collapsed = true;
+          }
         ];
         tabs = [
           {
+            entries = [{url = "https://claude.ai";}];
+            groupId = "ai";
+          }
+          {
             entries = [{url = "https://gemini.google.com";}];
+            groupId = "ai";
+          }
+          {
+            entries = [{url = "https://chatgpt.com";}];
+            groupId = "ai";
           }
           {
             entries = [{url = "https://github.com/ladislaus-postumus";}];
