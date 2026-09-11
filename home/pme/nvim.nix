@@ -1,6 +1,7 @@
 {
   inputs,
   pkgs,
+  lib,
   ...
 }: let
   vimSpellDe = pkgs.runCommand "vim-spell-de" {} ''
@@ -31,15 +32,19 @@ in {
   programs.nvf = {
     enable = true;
     settings.vim = {
+      extraPackages = [pkgs.gdtoolkit_4];
+
       viAlias = true;
       vimAlias = true;
       searchCase = "smart";
       lazy.enable = true;
       git.enable = true;
+      git.gitsigns.setupOpts = lib.generators.mkLuaInline "{ signcolumn = false }";
       undoFile.enable = true;
       telescope.enable = true;
       treesitter.enable = true;
       treesitter.context.enable = true;
+      treesitter.context.setupOpts.max_lines = 3;
 
       clipboard = {
         enable = true;
@@ -58,20 +63,59 @@ in {
         "${vimSpellDe}/share/vim/vimfiles"
       ];
 
-      statusline.lualine.enable = true;
+      statusline.lualine = {
+        enable = true;
+        setupOpts = {
+          options = {
+            section_separators = {
+              left = "";
+              right = "";
+            };
+            component_separators = {
+              left = "";
+              right = "";
+            };
+            disabled_filetypes.statusline = ["NvimTree" "TelescopePrompt"];
+          };
+          sections = {
+            lualine_a = ["mode"];
+            lualine_b = ["branch" "diff" "diagnostics"];
+            lualine_c = ["filename"];
+            lualine_x = ["encoding" "fileformat" "filetype"];
+            lualine_y = ["progress"];
+            lualine_z = ["location"];
+          };
+          tabline = lib.generators.mkLuaInline ''
+            {
+              lualine_a = { { 'buffers', mode = 4 } },
+              lualine_z = { { 'tabs', mode = 2 } },
+            }
+          '';
+        };
+      };
 
       ui = {
         noice = {
           enable = true;
           setupOpts = {
             lsp = {
-              hover.enabled = false;
-              signature.enabled = false;
+              hover.enabled = true;
+              signature.enabled = true;
             };
             presets = {
               bottom_search = true;
               command_palette = true;
               long_message_to_split = true;
+              lsp_doc_border = true;
+            };
+            views = {
+              hover = {
+                border = {style = "rounded";};
+                win_options = {
+                  winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder";
+                  winblend = 0;
+                };
+              };
             };
           };
         };
@@ -85,13 +129,6 @@ in {
         vim.o.colorcolumn = "120"
         vim.o.conceallevel = 3
         vim.o.concealcursor = 'nc'
-
-        vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-          vim.lsp.handlers.hover, { border = "rounded" }
-        )
-        vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-          vim.lsp.handlers.signatureHelp, { border = "rounded" }
-        )
 
         vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
           callback = function()
@@ -117,30 +154,14 @@ in {
         vim.keymap.set("n", "<C-k>", function() smart_navigate("k", "U") end)
         vim.keymap.set("n", "<C-l>", function() smart_navigate("l", "R") end)
 
-        require('lualine').setup({
-          options = {
-            -- Your structural chevron rules
-            section_separators = { left = "", right = "" },
-            component_separators = { left = "", right = "" },
-            disabled_filetypes = {
-              statusline = { "NvimTree", "TelescopePrompt" },
-            },
-          },
-
-          sections = {
-            lualine_a = { "mode" },
-            lualine_b = { "branch", "diff", "diagnostics" },
-            lualine_c = { "filename" },
-            lualine_x = { "encoding", "fileformat", "filetype" },
-            lualine_y = { "progress" },
-            lualine_z = { "location" },
-          },
-
-          tabline = {
-            lualine_a = { { 'buffers', mode = 4 } },
-            lualine_z = { { 'tabs', mode = 2 } },
-          },
+        -- assigns a separate colour to float/floatborder from stylix so noice hover panes look better
+        vim.api.nvim_create_autocmd("ColorScheme", {
+          callback = function()
+            vim.api.nvim_set_hl(0, "NormalFloat", { bg = vim.g.base16_gui01 })
+            vim.api.nvim_set_hl(0, "FloatBorder", { fg = vim.g.base16_gui03, bg = vim.g.base16_gui01 })
+          end,
         })
+        vim.cmd("doautocmd ColorScheme")
       '';
 
       languages = {
@@ -168,9 +189,36 @@ in {
 
       diagnostics = {
         enable = true;
+        config = {
+          virtual_text = false;
+          underline = true;
+          signs = lib.generators.mkLuaInline ''
+            {
+              text = {
+                [vim.diagnostic.severity.ERROR] = "",
+                [vim.diagnostic.severity.WARN] = "",
+                [vim.diagnostic.severity.INFO] = "",
+                [vim.diagnostic.severity.HINT] = "",
+              },
+            }
+          '';
+          severity_sort = true;
+          update_in_insert = false;
+          float = {
+            border = "none";
+            source = "always";
+          };
+        };
       };
 
-      formatter.conform-nvim.enable = true;
+      formatter.conform-nvim = {
+        enable = true;
+        setupOpts = {
+          formatters_by_ft = {
+            gd = ["gdformat"];
+          };
+        };
+      };
 
       snippets = {
         luasnip.enable = true;
@@ -253,6 +301,26 @@ in {
           key = "<leader>xt";
           action = "<cmd>Trouble todo toggle<cr>";
           desc = "Toggle TODOs (Trouble)";
+        }
+        {
+          mode = "n";
+          key = "<leader>e";
+          action = "vim.diagnostic.open_float";
+          lua = true;
+          silent = true;
+          desc = "Show line diagnostics";
+        }
+        {
+          mode = "n";
+          key = "<leader>gt";
+          action = "<cmd>Gitsigns toggle_signs<cr>";
+          desc = "Toggle Git Signs";
+        }
+        {
+          mode = "n";
+          key = "<leader>n";
+          action = "<cmd>Navbuddy<cr>";
+          desc = "Navbuddy";
         }
       ];
 
