@@ -10,7 +10,7 @@
     ./direnv.nix
     ./firefox.nix
     ./git.nix
-    ./nvim.nix
+    ./nvim/default.nix
     ./scripts.nix
     ./shell.nix
     ./tmux.nix
