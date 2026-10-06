@@ -48,4 +48,10 @@
     action = "<cmd>lua require('conform').format()<cr>";
     desc = "Format Buffer";
   }
+  {
+    mode = "n";
+    key = "<leader>cc";
+    action = "<cmd>CodeCompanionChat Toggle<cr>";
+    desc = "Toggle CodeCompanion Chat";
+  }
 ]

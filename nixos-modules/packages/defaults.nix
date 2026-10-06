@@ -95,6 +95,8 @@
     rar
 
     godot
+    claude-agent-acp
+    claude-code
   ];
   programs.zsh.enable = true;
 
