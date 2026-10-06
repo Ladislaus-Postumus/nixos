@@ -82,4 +82,6 @@
   };
 
   binds.whichKey.enable = true;
+
+  assistant.codecompanion-nvim.enable = true;
 }

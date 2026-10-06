@@ -22,6 +22,7 @@
       luaConfigPost =
         builtins.readFile ./lua/options.lua
         + builtins.readFile ./lua/autocmds.lua
+        + builtins.readFile ./lua/ai.lua
         + builtins.readFile ./lua/navigation.lua;
     }
   ];
