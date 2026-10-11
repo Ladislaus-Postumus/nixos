@@ -38,9 +38,13 @@
       };
 
       signing = {
-        sign-all = true;
+        behaviour = "drop";
         backend = "ssh";
         key = "~/.ssh/github_sk.pub";
+      };
+
+      git = {
+        sign-on-push = true;
       };
 
       ui = {
