@@ -58,7 +58,6 @@
             id = "ai";
             name = "ai";
             color = "purple";
-            collapsed = true;
           }
         ];
         tabs = [
