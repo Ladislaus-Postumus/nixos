@@ -9,8 +9,9 @@
 
   my.features.dwm.enable = true;
 
-  my.features.astro.enable = true;
   my.mounts.astro.enable = true;
+
+  my.features.astro.enable = true;
   my.features.gaming.enable = true;
   my.features.keyboard.enable = true;
   my.features.paperless.enable = true;
