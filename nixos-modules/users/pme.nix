@@ -7,6 +7,8 @@
   inherit (lib) mkEnableOption mkIf;
 in {
   options.my.users.pme.enable = mkEnableOption "allow user 'pme'";
+  options.my.home.pme.enable = mkEnableOption "home-manager for pme" // {default = true;};
+
   config = mkIf config.my.users.pme.enable {
     users.users.pme = {
       isNormalUser = true;
@@ -24,6 +26,8 @@ in {
       ];
     };
 
-    home-manager.users.pme = import ../../home/pme;
+    home-manager.users = mkIf config.my.home.pme.enable {
+      pme = import ../../home/pme;
+    };
   };
 }

@@ -1,11 +1,11 @@
-{...}: {
+{config, ...}: {
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
 
   # Enable networking
-  networking.networkmanager.enable = true;
+  networking.networkmanager.enable = config.my.features.graphical.enable;
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
