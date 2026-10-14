@@ -15,4 +15,5 @@
     yazi
     zip
   ];
+  programs.zsh.enable = true;
 }

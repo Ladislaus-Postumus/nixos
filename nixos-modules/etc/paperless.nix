@@ -5,7 +5,7 @@
 }: let
   inherit (lib) mkEnableOption mkIf;
 in {
-  options.my.features.paperless.enable = mkEnableOption "unlock tcp port 21 for ftp";
+  options.my.features.paperless.enable = mkEnableOption "enable paperless server and tcp connection";
   config = mkIf config.my.features.paperless.enable {
     my.features.ftp.enable = true;
     services.paperless = {

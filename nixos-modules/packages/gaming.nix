@@ -12,7 +12,7 @@ in {
     environment.systemPackages = with pkgs; [
       faugus-launcher
       heroic
-      limo
+      #limo
       openmw
       pciutils
       prismlauncher
