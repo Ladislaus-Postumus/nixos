@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
     ez-configs = {
@@ -49,6 +50,7 @@
   outputs = inputs @ {
     self,
     nixpkgs,
+    nixpkgs-stable,
     flake-parts,
     ez-configs,
     nvf,
@@ -66,6 +68,7 @@
       ];
       ezConfigs.root = ./.;
       ezConfigs.globalArgs = {inherit inputs;};
+      ezConfigs.nixosConfigurations.raspi.nixpkgs = inputs.nixpkgs-stable;
       systems = ["x86_64-linux"];
     };
 }

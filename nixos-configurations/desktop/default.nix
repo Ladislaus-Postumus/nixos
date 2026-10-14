@@ -16,11 +16,6 @@
   my.features.keyboard.enable = true;
   my.features.paperless.enable = true;
 
-  my.features.graphical.enable = true;
-  my.features.programming.enable = true;
-  my.features.todo.enable = true;
-  my.features.x11.enable = true;
-
   imports = [
     ./hardware.nix
     inputs.stylix.nixosModules.stylix
