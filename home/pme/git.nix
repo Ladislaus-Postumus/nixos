@@ -61,6 +61,16 @@
         identityFile = "~/.ssh/github_sk";
         identitiesOnly = true;
       };
+
+      "raspi" = {
+        hostname = "raspi";
+        user = "pme";
+        identityFile = "~/.ssh/id_ed25519_sk_rk";
+        identitiesOnly = true;
+        controlMaster = "auto";
+        controlPath = "~/.ssh/cm-%r@%h:%p";
+        controlPersist = "10m";
+      };
     };
   };
 }

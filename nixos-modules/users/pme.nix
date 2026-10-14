@@ -13,7 +13,10 @@ in {
     users.users.pme = {
       isNormalUser = true;
       description = "Philipp Melzer";
-      shell = pkgs.zsh;
+      shell =
+        if config.my.home.pme.enable
+        then pkgs.zsh
+        else pkgs.bash;
       extraGroups = [
         "networkmanager"
         "wheel"
