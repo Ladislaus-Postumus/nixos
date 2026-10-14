@@ -41,6 +41,7 @@
 
           "https://boardgamearena.com"
           "https://boardgamegeek.com"
+          "https://hanab.live"
         ];
       };
     };

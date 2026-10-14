@@ -3,7 +3,7 @@
     enable = true;
 
     signing = {
-      key = "~/.ssh/github_sk.pub";
+      key = "~/.ssh/id_ed25519_sk_rk.pub";
       signByDefault = true;
       format = "ssh";
     };
@@ -40,7 +40,7 @@
       signing = {
         behaviour = "drop";
         backend = "ssh";
-        key = "~/.ssh/github_sk.pub";
+        key = "~/.ssh/id_ed25519_sk_rk.pub";
       };
 
       git = {

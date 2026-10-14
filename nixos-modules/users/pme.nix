@@ -20,7 +20,6 @@ in {
         "docker"
         "sftpusers"
         "input"
-        "corectrl"
       ];
     };
 
