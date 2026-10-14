@@ -6,6 +6,7 @@
 }: {
   my.users.pme.enable = true;
   my.users.tech.enable = true;
+
   my.features.dwm.enable = true;
 
   my.features.astro.enable = true;
@@ -14,10 +15,16 @@
   my.features.keyboard.enable = true;
   my.features.paperless.enable = true;
 
+  my.features.graphical.enable = true;
+  my.features.programming.enable = true;
+  my.features.todo.enable = true;
+  my.features.x11.enable = true;
+
   imports = [
     ./hardware.nix
     inputs.stylix.nixosModules.stylix
   ];
+
   networking.hostName = "desktop";
   system.stateVersion = "24.11";
   services.xserver.videoDrivers = ["nvidia"];
@@ -74,4 +81,6 @@
     dates = "daily";
   };
   systemd.services.nixos-upgrade.environment.NIXOS_LABEL = "auto-upgrade";
+
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 }
