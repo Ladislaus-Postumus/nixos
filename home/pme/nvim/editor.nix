@@ -60,7 +60,7 @@
     undotree.enable = true;
     yazi-nvim.enable = true;
     yazi-nvim.setupOpts.open_for_directories = true;
-    vim-wakatime.enable = true;
+    #vim-wakatime.enable = true;
   };
 
   terminal.toggleterm = {
