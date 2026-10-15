@@ -27,7 +27,7 @@
 
   system.autoUpgrade = {
     enable = true;
-    flake = "/home/pme/projects/nixos/";
+    flake = "github:Ladislaus-Postumus/nixos";
     operation = "boot";
     dates = "daily";
   };
