@@ -17,6 +17,7 @@ in {
       pciutils
       prismlauncher
       r2modman
+      melonds
     ];
 
     programs.steam = {
