@@ -7,18 +7,20 @@
   my.users.pme.enable = true;
   my.users.tech.enable = true;
 
-  my.features.dwm.enable = true;
-
-  my.features.astro.enable = true;
   my.mounts.astro.enable = true;
+
+  my.features.systemd-boot.enable = true;
+  my.features.dwm.enable = true;
+  my.features.graphical.enable = true;
+  my.features.x11.enable = true;
+
   my.features.gaming.enable = true;
   my.features.keyboard.enable = true;
-  my.features.paperless.enable = true;
-
-  my.features.graphical.enable = true;
   my.features.programming.enable = true;
-  my.features.todo.enable = true;
-  my.features.x11.enable = true;
+
+  my.features.TODO.enable = true;
+  my.features.astro.enable = true;
+  my.features.paperless.enable = true;
 
   imports = [
     ./hardware.nix
