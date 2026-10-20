@@ -50,6 +50,46 @@
       ui = {
         default-command = "status";
       };
+
+      revsets = {
+        log = "latest(::, 10) | present(@) | ancestors(immutable_heads().., 2) | present(trunk())";
+      };
+
+      templates = {
+        log = "builtin_log_oneline";
+      };
+
+      template-aliases = {
+        # author: print nothing if it's my own email, otherwise the email
+        "format_short_signature_oneline(signature)" = ''if(signature.email() == config("user.email").as_string(), "", signature.email())'';
+
+        # commit hash: print nothing
+        "format_short_commit_id(id)" = ''""'';
+
+        # no timestamp by default
+        "format_timestamp(timestamp)" = ''""'';
+      };
+
+      aliases = {
+        e = [
+          "edit"
+        ];
+
+        b = ["util" "exec" "--" "bash" "-c" "jj bookmark set \"\${1:-main}\" -r @-" ""];
+
+        l = [
+          "log"
+        ];
+
+        ll = [
+          "log"
+          "-T builtin_log_compact"
+          "--config"
+          "template-aliases.\"format_timestamp(timestamp)\"='timestamp.local().format(\"%Y-%m-%d %H:%M:%S\")'"
+          "--config"
+          "template-aliases.\"format_short_commit_id(id)\"='id.shortest(8)'"
+        ];
+      };
     };
   };
 

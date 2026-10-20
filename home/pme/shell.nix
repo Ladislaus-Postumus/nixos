@@ -25,6 +25,13 @@
       not = "nh os test";
       nob = "nh os build";
       hl = "rg --passthrough";
+
+      jb = "jj b";
+      jl = "jj l";
+      jll = "jj ll";
+      jp = "jj git push";
+      js = "jj st";
+      jw = "jj st; echo ''; jj l";
     };
 
     initContent = ''
