@@ -65,15 +65,19 @@
     }
   ];
 
-  security.pam.services = {
-    login.u2fAuth = true;
-    sudo.u2fAuth = true;
-  };
+  security = {
+    pam.services = {
+      login.u2fAuth = true;
+      sudo.u2fAuth = true;
+    };
 
-  security.pam.u2f = {
-    control = "sufficient";
-    enable = true;
-    settings.cue = true;
+    pam.u2f = {
+      control = "sufficient";
+      enable = true;
+      settings.cue = true;
+    };
+
+    pki.certificateFiles = [./xmpp.home.arpa.crt];
   };
 
   system.autoUpgrade = {

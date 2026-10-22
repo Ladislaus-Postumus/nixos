@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   my.users.pme.enable = true;
   my.home.pme.enable = false;
 
@@ -15,10 +19,19 @@
 
   # wifi
   hardware.enableRedistributableFirmware = true;
-  networking.wireless = {
-    enable = true;
-    secretsFile = "/var/lib/secrets/wifi.env";
-    networks."TeeLan".pskRaw = "ext:home_psk";
+  networking = {
+    wireless = {
+      enable = true;
+      secretsFile = "/var/lib/secrets/wifi.env";
+      networks."TeeLan".pskRaw = "ext:home_psk";
+    };
+
+    interfaces.wlan0.ipv6.addresses = [
+      {
+        address = "fd19:256c:77ce::68";
+        prefixLength = 64;
+      }
+    ];
   };
 
   services.openssh = {
@@ -36,7 +49,7 @@
   ];
 
   ### BLOCKY CONFIG
-  environment.systemPackages = [config.services.blocky.package];
+  environment.systemPackages = [config.services.blocky.package config.services.prosody.package pkgs.openssl];
   services.blocky = {
     enable = true;
     settings = {
@@ -68,14 +81,24 @@
         loading.strategy = "fast"; # serve DNS immediately, lists load in background
       };
 
+      customDNS = {
+        customTTL = "1h";
+        mapping = {
+          "xmpp.home.arpa" = "192.168.178.68";
+        };
+      };
+
       caching = {
-        environment.systemPackages = [config.services.blocky.package];
         minTime = "5m";
         prefetching = true;
       };
 
-      # Optional: forward your router's local names (e.g. a Fritz!Box)
-      # conditional.mapping."fritz.box" = "192.168.178.1";
+      conditional.mapping = {
+        "fritz.box" = "192.168.178.1";
+        "." = "192.168.178.1";
+        "178.168.192.in-addr.arpa" = "192.168.178.1";
+      };
+      clientLookup.upstream = "192.168.178.1";
 
       # Every query to the journal (`journalctl -u blocky -f`) — handy while learning;
       # switch to "none" later to spare the SD card.
@@ -84,7 +107,30 @@
   };
 
   networking.firewall = {
-    allowedTCPPorts = [53];
+    allowedTCPPorts = [
+      #blocky
+      53
+      #prososdy
+      5222
+      5281
+    ];
     allowedUDPPorts = [53];
+  };
+
+  services.prosody = {
+    enable = true;
+    extraConfig = ''
+      certificates = "/var/lib/prosody"
+    '';
+    admins = ["pme@xmpp.home.arpa"];
+    allowRegistration = true; #don't care on local test
+    muc = [{domain = "conference.xmpp.home.arpa";}];
+    httpFileShare = {domain = "uploads.xmpp.home.arpa";};
+    virtualHosts = {
+      test = {
+        domain = "xmpp.home.arpa";
+        enabled = true;
+      };
+    };
   };
 }
