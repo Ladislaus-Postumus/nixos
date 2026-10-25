@@ -7,7 +7,8 @@
 
   imports = [
     inputs.stylix.homeModules.stylix
-    ./direnv.nix
+    #./direnv.nix
+    inputs.self.modules.homeManager.direnv
     ./firefox.nix
     ./git.nix
     ./nvim/default.nix

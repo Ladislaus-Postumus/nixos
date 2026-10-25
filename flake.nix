@@ -10,6 +10,7 @@
       url = "github:ehllie/ez-configs";
       inputs.flake-parts.follows = "flake-parts";
     };
+    import-tree.url = "github:vic/import-tree";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -48,23 +49,18 @@
   };
 
   outputs = inputs @ {
-    self,
     nixpkgs,
     #nixpkgs-stable,
     flake-parts,
     ez-configs,
-    nvf,
-    home-manager,
-    stylix,
-    dwm-custom,
-    dwmblocks-custom,
-    st-custom,
-    dmenu-custom,
+    import-tree,
     ...
   }:
     flake-parts.lib.mkFlake {inherit inputs;} {
       imports = [
         ez-configs.flakeModule
+        flake-parts.flakeModules.modules
+        (import-tree ./modules)
       ];
       ezConfigs.root = ./.;
       ezConfigs.globalArgs = {inherit inputs;};
