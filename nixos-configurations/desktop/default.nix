@@ -29,6 +29,7 @@
 
   networking.hostName = "desktop";
   system.stateVersion = "24.11";
+  networking.networkmanager.wifi.powersave = false;
   services.xserver.videoDrivers = ["nvidia"];
   hardware.graphics = {
     enable = true;

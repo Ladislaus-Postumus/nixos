@@ -33,6 +33,10 @@
       }
     ];
   };
+  # turn off wifi power save
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="net", KERNEL=="wlan0", RUN+="${pkgs.iw}/bin/iw dev wlan0 set power_save off"
+  '';
 
   services.openssh = {
     enable = true;
