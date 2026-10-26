@@ -29,5 +29,15 @@ in {
 
     services.upower.enable = true;
     security.polkit.enable = true;
+
+    programs.obs-studio = {
+      enable = true;
+      enableVirtualCamera = true; # loads v4l2loopback and sets up polkit
+      plugins = with pkgs.obs-studio-plugins; [
+        obs-backgroundremoval # virtual green screen
+        # wlrobs                    # screen capture on wlroots compositors (Sway/Hyprland)
+        # obs-pipewire-audio-capture
+      ];
+    };
   };
 }
