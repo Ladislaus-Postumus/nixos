@@ -14,6 +14,8 @@
     unzip
     yazi
     zip
+    parallel
+    github-cli
   ];
   programs.zsh.enable = true;
 }

@@ -115,7 +115,14 @@
       if [[ -z "$TMUX" ]]; then
         ${pkgs.fastfetch}/bin/fastfetch
         print ""
-        awk '/^# /{h1=$0; sub(/^#+ +/, "", h1)} /^## /{h2=$0; sub(/^##+ +/, "", h2)} /^>/{sub(/^>+ +/, ""); quote=quote $0 "\n"; next} /^—/{if(quote){sub(/^— +/, ""); printf "\033[3m%s—%s %s %s\033[0m\0", quote, h1, h2, $0; quote=""}}' ~/notes/quotes.norg | shuf -n 1 -z
+
+      local cache=~/.cache/gh-status
+      [[ -f $cache ]] && cat $cache
+      { gh repo list --no-archived --limit 200 --visibility=public --json nameWithOwner -q '.[].nameWithOwner' | parallel -k -j 8 bash ~/projects/workflows.sh | paste -sd ' ' > $cache.tmp \
+          && mv $cache.tmp $cache & } </dev/null >/dev/null &!
+
+        print ""
+        awk '/^# /{h1=$0; sub(/^#+ +/, "", h1)} /^## /{h2=$0; sub(/^##+ +/, "", h2)} /^>/{sub(/^>+ +/, ""); quote=quote $0 "\n"; next} /^—/{if(quote){sub(/^— +/, ""); printf "\033[3m%s—%s %s %s\033[0m\0", quote, h1, h2, $0; quote=""}}' ~/notes/quotes.norg | shuf -n 1 -z | tr '\0' '\n'
       fi
     '';
   };
