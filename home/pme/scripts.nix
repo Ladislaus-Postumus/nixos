@@ -8,6 +8,8 @@
     (pkgs.writeScriptBin "network-stat" (builtins.readFile ./scripts/status/network.sh))
     (pkgs.writeScriptBin "volume-stat" (builtins.readFile ./scripts/status/volume.sh))
 
+    (pkgs.writeScriptBin "inputdevices" (builtins.readFile ./scripts/inputdevices.sh))
+
     (pkgs.writeScriptBin "mk-rust" (builtins.readFile ./scripts/mk-rust.sh))
   ];
 }
