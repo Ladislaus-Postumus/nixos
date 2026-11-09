@@ -284,6 +284,38 @@
         "type": "github"
       }
     },
+    "gemoji": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790605522,
+        "narHash": "sha256-ZTtqpPaZCA0VZ/ifs1gs41GJ9yGY6xgxSi+N63bvoW4=",
+        "owner": "github",
+        "repo": "gemoji",
+        "rev": "fadaeaf1f1a9be82b321316a6c5502e43138b2f6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "github",
+        "repo": "gemoji",
+        "type": "github"
+      }
+    },
+    "gitmoji": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1793656804,
+        "narHash": "sha256-M7A7a+kYAgeMz7twthGqZaauBaGwMJqPw6StaV/bYmE=",
+        "owner": "carloscuesta",
+        "repo": "gitmoji",
+        "rev": "c7e067f43a33c5d9d42450314977efa409101308",
+        "type": "github"
+      },
+      "original": {
+        "owner": "carloscuesta",
+        "repo": "gitmoji",
+        "type": "github"
+      }
+    },
     "gnome-shell": {
       "flake": false,
       "locked": {
@@ -508,6 +540,8 @@
         "ez-configs": "ez-configs",
         "firefox-addons": "firefox-addons",
         "flake-parts": "flake-parts",
+        "gemoji": "gemoji",
+        "gitmoji": "gitmoji",
         "home-manager": "home-manager",
         "import-tree": "import-tree",
         "nixpkgs": "nixpkgs_2",

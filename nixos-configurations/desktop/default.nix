@@ -25,6 +25,7 @@
   imports = [
     ./hardware.nix
     inputs.stylix.nixosModules.stylix
+    inputs.self.modules.nixos.emoji-picker
   ];
 
   networking.hostName = "desktop";

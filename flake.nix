@@ -46,6 +46,15 @@
       url = "github:Ladislaus-Postumus/dmenu-custom";
       flake = false;
     };
+
+    gitmoji = {
+      url = "github:carloscuesta/gitmoji";
+      flake = false;
+    };
+    gemoji = {
+      url = "github:github/gemoji";
+      flake = false;
+    };
   };
 
   outputs = inputs @ {

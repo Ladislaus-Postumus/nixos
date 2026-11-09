@@ -16,6 +16,7 @@
     zip
     parallel
     github-cli
+    jq
   ];
   programs.zsh.enable = true;
 }
