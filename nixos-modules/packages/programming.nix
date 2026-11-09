@@ -13,8 +13,6 @@ in {
       devcontainer
       just
       godot
-      claude-agent-acp
-      claude-code
     ];
   };
 }
