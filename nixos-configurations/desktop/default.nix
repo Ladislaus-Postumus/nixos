@@ -20,7 +20,7 @@
 
   my.features.TODO.enable = true;
   my.features.astro.enable = true;
-  my.features.paperless.enable = true;
+  my.features.paperless.enable = false;
 
   imports = [
     ./hardware.nix

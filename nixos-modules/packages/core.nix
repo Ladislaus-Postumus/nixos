@@ -17,6 +17,7 @@
     parallel
     github-cli
     jq
+    numlockx
   ];
   programs.zsh.enable = true;
 }
