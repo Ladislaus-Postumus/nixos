@@ -43,15 +43,12 @@
         key = "~/.ssh/id_ed25519_sk_rk.pub";
       };
 
-      git = {
-        sign-on-push = true;
-      };
-
       ui = {
         default-command = "status";
       };
 
       revsets = {
+        git-sign-on-push = "~signed() & mine()";
         log = "latest(::, 10) | present(@) | ancestors(immutable_heads().., 2) | present(trunk())";
       };
 
