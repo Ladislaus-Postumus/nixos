@@ -12,6 +12,7 @@
 
     dmenu-gitmoji = pkgs.writeShellApplication {
       name = "dmenu-gitmoji";
+      inherit runtimeInputs;
       text = ''
         # Usage: dmenu-gitmoji      copies the emoji
         #        dmenu-gitmoji -c   copies the shortcode
