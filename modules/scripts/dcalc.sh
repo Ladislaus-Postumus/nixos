@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # dcalc — dmenu calculator with history
 # Enter: evaluate | Tab: pull a history entry into the input to edit | Esc: quit (last result -> clipboard)
 
