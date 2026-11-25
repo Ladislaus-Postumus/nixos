@@ -1,0 +1,111 @@
+{
+  inputs,
+  config,
+  ...
+}: let
+  nixos = config.flake.modules.nixos;
+in {
+  flake.nixosConfigurations.desktop = inputs.nixpkgs.lib.nixosSystem {
+    specialArgs = {inherit inputs;}; # bridge: old modules expect `inputs`
+    modules = [
+      nixos.desktop
+      nixos.emoji-picker
+      nixos.dcalc
+      inputs.stylix.nixosModules.stylix
+      ../../../nixos-modules
+    ];
+  };
+
+  flake.modules.nixos.desktop = {
+    pkgs,
+    config,
+    inputs,
+    ...
+  }: {
+    my.users.pme.enable = true;
+    my.users.tech.enable = true;
+
+    my.mounts.astro.enable = true;
+
+    my.features.systemd-boot.enable = true;
+    my.features.dwm.enable = true;
+    my.features.graphical.enable = true;
+    my.features.x11.enable = true;
+
+    my.features.gaming.enable = true;
+    my.features.keyboard.enable = true;
+    my.features.programming.enable = true;
+
+    my.features.TODO.enable = true;
+    my.features.astro.enable = true;
+    my.features.paperless.enable = false;
+
+    imports = [
+      ./_hardware.nix
+    ];
+
+    networking.hostName = "desktop";
+    system.stateVersion = "24.11";
+    networking.networkmanager.wifi.powersave = false;
+    services.xserver.videoDrivers = ["nvidia"];
+    hardware.graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
+
+    hardware.nvidia = {
+      modesetting.enable = true;
+      powerManagement.enable = false;
+      nvidiaSettings = true;
+      open = false;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+    };
+
+    #virtualisation.docker.enable = true;
+    #virtualisation.docker.enableOnBoot = false;
+    #systemd.services.NetworkManager-wait-online.enable = false;
+
+    environment.systemPackages = with pkgs; [
+      pam_u2f
+    ];
+
+    zramSwap = {
+      enable = true;
+      priority = 100; # High priority: Use compressed RAM first
+      memoryPercent = 50;
+    };
+
+    swapDevices = [
+      {
+        device = "/var/lib/swapfile";
+        size = 16 * 1024;
+        priority = 10; # Low priority: Only use when ZRAM is full
+      }
+    ];
+
+    security = {
+      pam.services = {
+        login.u2fAuth = true;
+        sudo.u2fAuth = true;
+      };
+
+      pam.u2f = {
+        control = "sufficient";
+        enable = true;
+        settings.cue = true;
+      };
+
+      #pki.certificateFiles = [./xmpp.home.arpa.crt];
+    };
+
+    system.autoUpgrade = {
+      enable = true;
+      flake = "github:Ladislaus-Postumus/nixos";
+      operation = "boot";
+      dates = "daily";
+    };
+    systemd.services.nixos-upgrade.environment.NIXOS_LABEL = "auto-upgrade";
+
+    boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  };
+}
