@@ -21,7 +21,7 @@
   services.xserver.xkb = {
     layout = "us";
     variant = "";
-    options = "grp:shifts_toggle";
+    options = "grp:shifts_toggle,compose:caps";
   };
 
   # Allow unfree packages
